@@ -17,11 +17,17 @@ document.querySelector('#app').innerHTML = `
         <a href="#contact">Liên hệ</a>
       </nav>
 
-      <div class="header-right">
-        <button class="language">VI ▾</button>
-        <button onclick="window.location.href='pages/login.html'"
-        class="login-btn">Đăng nhập</button>
-      </div>
+     
+  <div class="header-right">
+    <button class="language">VI ▾</button>
+
+    <button onclick="window.location.href='pages/login.html'"
+            class="login-btn">
+      Đăng nhập
+    </button>
+  </div>
+      
+      
     </div>
   </header>
 
