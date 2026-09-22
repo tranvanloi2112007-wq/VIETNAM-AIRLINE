@@ -19,7 +19,7 @@ document.querySelector('#app').innerHTML = `
 
       <div class="header-right">
         <button class="language">VI ▾</button>
-        <button onclick="window.location.href='/pages/login.html'"
+        <button onclick="window.location.href='pages/login.html'"
         class="login-btn">Đăng nhập</button>
       </div>
     </div>
