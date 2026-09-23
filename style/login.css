@@ -13,9 +13,10 @@ body {
     justify-content: center;
     align-items: center;
     background: linear-gradient(rgba(11, 59, 96, 0.45), rgba(11, 59, 96, 0.65)),
-                url('https://images.unsplash.com/photo-1517059224940-d4af9eec41b7?auto=format&fit=crop&w=1600&q=80') center/cover no-repeat;
+                url('../public/img/banner.png') center/cover no-repeat;
     padding: 20px;
 }
+
 
 /* Card chứa form đăng nhập */
 .form-container {
@@ -113,4 +114,9 @@ p a:hover {
     margin-top: 14px;
     font-size: 13px;
     min-height: 18px;
+}
+div a{
+    color: #0b3b60;
+    margin-top: 10px;
+    padding-top: 10px;
 }
