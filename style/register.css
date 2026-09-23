@@ -1,0 +1,117 @@
+/* Reset & Style chung */
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+    font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+}
+
+/* Nền mây bầu trời đồng bộ với giao diện */
+body {
+    min-height: 100vh;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    background: linear-gradient(135deg, #0a4b7c 0%, #032b49 100%);
+    padding: 20px;
+}
+
+/* Card chứa Form Đăng ký */
+.form-container {
+    background: #ffffff;
+    width: 100%;
+    max-width: 420px;
+    padding: 40px 32px;
+    border-radius: 12px;
+    box-shadow: 0 15px 35px rgba(0, 0, 0, 0.2);
+    text-align: center;
+}
+
+/* Tiêu đề */
+.form-container h2 {
+    font-family: 'Georgia', serif;
+    color: #0a4b7c;
+    font-size: 28px;
+    font-weight: 600;
+    margin-bottom: 24px;
+    letter-spacing: 0.5px;
+}
+
+/* Bố cục Form */
+#registerForm {
+    display: flex;
+    flex-direction: column;
+    gap: 16px;
+}
+
+/* Ô nhập liệu */
+input[type="text"],
+input[type="email"],
+input[type="password"] {
+    width: 100%;
+    padding: 12px 16px;
+    height: 48px;
+    border: 1px solid #e2e8f0;
+    border-radius: 6px;
+    font-size: 14px;
+    color: #333333;
+    outline: none;
+    background-color: #f8fafc;
+    transition: all 0.2s ease-in-out;
+}
+
+input[type="text"]:focus,
+input[type="email"]:focus,
+input[type="password"]:focus {
+    border-color: #0a4b7c;
+    background-color: #ffffff;
+    box-shadow: 0 0 0 3px rgba(10, 75, 124, 0.1);
+}
+
+/* Nút Đăng ký */
+button[type="submit"] {
+    width: 100%;
+    height: 48px;
+    background-color: #0a4b7c;
+    color: #ffffff;
+    border: none;
+    border-radius: 6px;
+    font-size: 15px;
+    font-weight: 600;
+    cursor: pointer;
+    margin-top: 8px;
+    transition: background-color 0.2s ease-in-out, transform 0.1s;
+}
+
+button[type="submit"]:hover {
+    background-color: #063457;
+}
+
+button[type="submit"]:active {
+    transform: scale(0.99);
+}
+
+/* Dòng chữ chuyển hướng Đăng nhập */
+p {
+    font-size: 14px;
+    color: #666666;
+    margin-top: 20px;
+}
+
+p a {
+    color: #0a4b7c;
+    font-weight: 600;
+    text-decoration: none;
+    transition: color 0.2s;
+}
+
+p a:hover {
+    text-decoration: underline;
+}
+
+/* Thông báo phản hồi */
+#message {
+    margin-top: 14px;
+    font-size: 13px;
+    min-height: 18px;
+}

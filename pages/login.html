@@ -1,20 +1,31 @@
 <!DOCTYPE html>
-<html lang="en">
+<html lang="vi">
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Document</title>
+    <title>Đăng nhập</title>
+    <link rel="stylesheet" href="../style/login.css">
 </head>
-<style>
-    h2{
-        color: blue;
-    }
-</style>
 <body>
-    <h2 >Đăng Nhập</h2>
-    <input type="text">
-    <input type="text">
-    <button>Đăng Nhập</button>
-   
+
+<div class="form-container">
+    <h2>Đăng nhập</h2>
+
+    <form id="loginForm">
+        <input type="email" id="email" placeholder="Email">
+        <input type="password" id="password" placeholder="Mật khẩu">
+
+        <button type="submit">Đăng nhập</button>
+    </form>
+
+    <p>
+        Chưa có tài khoản?
+        <a href="./register.html">Đăng ký</a>
+    </p>
+
+    <p id="message"></p>
+</div>
+
+<script src="./js/login.js"></script>
 </body>
 </html>
