@@ -1,0 +1,64 @@
+{
+  "flights": [
+    {
+      "maChuyen": "VN101",
+      "diemDi": "Hà Nội",
+      "diemDen": "TP. Hồ Chí Minh",
+      "ngay": "2026-10-21",
+      "gioDi": "07:30",
+      "gioDen": "09:45",
+      "gia": 1450000,
+      "hangGhe": "Phổ thông"
+    },
+    {
+      "maChuyen": "VN205",
+      "diemDi": "Hà Nội",
+      "diemDen": "Đà Nẵng",
+      "ngay": "2026-10-22",
+      "gioDi": "08:15",
+      "gioDen": "10:00",
+      "gia": 990000,
+      "hangGhe": "Phổ thông"
+    },
+    {
+      "maChuyen": "VN310",
+      "diemDi": "TP. Hồ Chí Minh",
+      "diemDen": "Nha Trang",
+      "ngay": "2026-10-23",
+      "gioDi": "09:40",
+      "gioDen": "11:20",
+      "gia": 1200000,
+      "hangGhe": "Phổ thông"
+    },
+    {
+      "maChuyen": "VN420",
+      "diemDi": "Đà Nẵng",
+      "diemDen": "Hà Nội",
+      "ngay": "2026-10-24",
+      "gioDi": "13:10",
+      "gioDen": "15:00",
+      "gia": 1050000,
+      "hangGhe": "Thương gia"
+    },
+    {
+      "maChuyen": "VN555",
+      "diemDi": "Hà Nội",
+      "diemDen": "TP. Hồ Chí Minh",
+      "ngay": "2026-10-25",
+      "gioDi": "18:20",
+      "gioDen": "20:35",
+      "gia": 1680000,
+      "hangGhe": "Thương gia"
+    },
+    {
+      "maChuyen": "VN602",
+      "diemDi": "TP. Hồ Chí Minh",
+      "diemDen": "Hà Nội",
+      "ngay": "2026-10-26",
+      "gioDi": "06:50",
+      "gioDen": "09:05",
+      "gia": 1390000,
+      "hangGhe": "Phổ thông"
+    }
+  ]
+}

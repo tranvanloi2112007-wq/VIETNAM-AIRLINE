@@ -38,7 +38,7 @@ document.querySelector('#app').innerHTML = `
         <p class="hero-subtitle">WELCOME TO VIETNAM AIRLINES</p>
         <h1>Khám phá Việt Nam<br>theo cách của bạn</h1>
         <p class="hero-text">
-          Bay cùng Vietnam Airlines – an tâm trên mọi hành trình.
+          Bay cùng Vietnam Airlines – an tâm trong từng hành trình.
         </p>
       </div>
     </div>
@@ -56,83 +56,138 @@ document.querySelector('#app').innerHTML = `
 
       <div class="trip-type">
         <label>
-          <input type="radio" name="trip" value="round" checked>
+          <input type="radio" name="trip" value="round" id="trip-round" checked>
           <span>Khứ hồi</span>
         </label>
 
         <label>
-          <input type="radio" name="trip" value="oneway">
+          <input type="radio" name="trip" value="oneway" id="trip-oneway">
           <span>Một chiều</span>
         </label>
       </div>
 
-      <div class="search-form">
-
+      <form class="search-form" id="flight-search-form">
         <div class="form-group">
-          <label>Điểm đi</label>
+          <label for="from-city">Điểm đi</label>
           <div class="input-box">
             <span class="input-icon">⌖</span>
-            <div>
-              <strong id="from-code">HAN</strong>
-              <small id="from-name">Hà Nội</small>
-            </div>
+            <select id="from-city" class="field-control">
+              <option value="HAN">Hà Nội (HAN)</option>
+              <option value="SGN">TP. Hồ Chí Minh (SGN)</option>
+              <option value="DAD">Đà Nẵng (DAD)</option>
+              <option value="CXR">Nha Trang (CXR)</option>
+            </select>
           </div>
         </div>
 
-        <button class="swap-btn" id="swap-btn" type="button">
+        <button class="swap-btn" id="swap-btn" type="button" aria-label="Đổi điểm đi và điểm đến">
           ⇄
         </button>
 
         <div class="form-group">
-          <label>Điểm đến</label>
+          <label for="to-city">Điểm đến</label>
           <div class="input-box">
             <span class="input-icon">⌖</span>
-            <div>
-              <strong id="to-code">SGN</strong>
-              <small id="to-name">TP. Hồ Chí Minh</small>
-            </div>
+            <select id="to-city" class="field-control">
+              <option value="SGN">TP. Hồ Chí Minh (SGN)</option>
+              <option value="HAN">Hà Nội (HAN)</option>
+              <option value="DAD">Đà Nẵng (DAD)</option>
+              <option value="CXR">Nha Trang (CXR)</option>
+            </select>
           </div>
         </div>
 
         <div class="form-group">
           <label>Ngày đi</label>
-          <div class="input-box">
+          <div class="input-box date-box">
             <span class="input-icon">▣</span>
-            <div>
-              <strong>21/10/2026</strong>
-              <small>Thứ Tư</small>
-            </div>
+            <input class="field-control date-select" data-date-type="departure" type="date" value="2026-10-21" min="2026-01-01" max="2026-12-31">
           </div>
         </div>
 
-        <div class="form-group return-date">
+        <div class="form-group" id="return-date-group">
           <label>Ngày về</label>
-          <div class="input-box">
+          <div class="input-box date-box">
             <span class="input-icon">▣</span>
-            <div>
-              <strong>25/10/2026</strong>
-              <small>Chủ Nhật</small>
-            </div>
+            <input class="field-control date-select" data-date-type="return" type="date" value="2026-10-25" min="2026-01-01" max="2026-12-31">
           </div>
         </div>
 
         <div class="form-group">
-          <label>Hành khách</label>
+          <label for="cabin-class">Hạng ghế</label>
           <div class="input-box">
+            <span class="input-icon">✦</span>
+            <select id="cabin-class" class="field-control">
+              <option value="Tất cả">Tất cả</option>
+              <option value="Phổ thông">Phổ thông</option>
+              <option value="Thương gia">Thương gia</option>
+            </select>
+          </div>
+        </div>
+
+        <div class="form-group passenger-field">
+          <label>Số hành khách</label>
+          <div class="input-box passenger-box">
             <span class="input-icon">♙</span>
-            <div>
-              <strong>1 Người lớn</strong>
-              <small>Phổ thông</small>
+            <div class="passenger-summary" id="passenger-summary">1 Người lớn</div>
+            <div class="passenger-menu">
+              <div class="passenger-row">
+                <div>
+                  <strong>Người lớn</strong>
+                  <small>Từ 12 tuổi</small>
+                </div>
+                <div class="counter-controls">
+                  <button type="button" class="counter-btn" data-type="adult" data-action="minus">−</button>
+                  <span id="adult-count">1</span>
+                  <button type="button" class="counter-btn" data-type="adult" data-action="plus">＋</button>
+                </div>
+              </div>
+
+              <div class="passenger-row">
+                <div>
+                  <strong>Trẻ em</strong>
+                  <small>2 - 11 tuổi</small>
+                </div>
+                <div class="counter-controls">
+                  <button type="button" class="counter-btn" data-type="child" data-action="minus">−</button>
+                  <span id="child-count">0</span>
+                  <button type="button" class="counter-btn" data-type="child" data-action="plus">＋</button>
+                </div>
+              </div>
+
+              <div class="passenger-row">
+                <div>
+                  <strong>Em bé</strong>
+                  <small>Dưới 2 tuổi</small>
+                </div>
+                <div class="counter-controls">
+                  <button type="button" class="counter-btn" data-type="infant" data-action="minus">−</button>
+                  <span id="infant-count">0</span>
+                  <button type="button" class="counter-btn" data-type="infant" data-action="plus">＋</button>
+                </div>
+              </div>
             </div>
           </div>
         </div>
 
-        <button class="search-btn" id="search-btn">
+        <button class="search-btn" id="search-btn" type="submit">
           Tìm chuyến bay
         </button>
+      </form>
 
+    </div>
+  </section>
+
+  <section class="flight-results" id="flight-results">
+    <div class="section-container">
+      <div class="section-title">
+        <p>CHUYẾN BAY GỢI Ý</p>
+
+        <h2>Danh sách chuyến bay mẫu</h2>
+        <p class="results-summary" id="results-summary">Đang tải chuyến bay...</p>
       </div>
 
+      <div class="results-list" id="results-list"></div>
     </div>
   </section>
 
@@ -142,7 +197,7 @@ document.querySelector('#app').innerHTML = `
 
       <div class="section-title">
         <p>DỊCH VỤ CỦA CHÚNG TÔI</p>
-        <h2>Đồng hành cùng bạn trên mọi chuyến bay</h2>
+        <h2>Đồng hành cùng bạn trong mọi chuyến bay</h2>
       </div>
 
       <div class="service-grid">
@@ -266,7 +321,7 @@ document.querySelector('#app').innerHTML = `
         </div>
 
         <p>
-          Sải cánh vươn cao – kết nối Việt Nam với thế giới.
+          Sải cánh vươn cao, kết nối Việt Nam với thế giới.
         </p>
       </div>
 
@@ -302,28 +357,248 @@ document.querySelector('#app').innerHTML = `
 
 // Đổi điểm đi / điểm đến
 const swapBtn = document.querySelector('#swap-btn')
+const fromCity = document.querySelector('#from-city')
+const toCity = document.querySelector('#to-city')
 
 swapBtn.addEventListener('click', () => {
-  const fromCode = document.querySelector('#from-code')
-  const fromName = document.querySelector('#from-name')
+  const currentFrom = fromCity.value
+  fromCity.value = toCity.value
+  toCity.value = currentFrom
 
-  const toCode = document.querySelector('#to-code')
-  const toName = document.querySelector('#to-name')
-
-  const oldFromCode = fromCode.textContent
-  const oldFromName = fromName.textContent
-
-  fromCode.textContent = toCode.textContent
-  fromName.textContent = toName.textContent
-
-  toCode.textContent = oldFromCode
-  toName.textContent = oldFromName
+  applyFlightFilter()
 })
+
+const tripRound = document.querySelector('#trip-round')
+const tripOneWay = document.querySelector('#trip-oneway')
+const returnDateGroup = document.querySelector('#return-date-group')
+const passengerSummary = document.querySelector('#passenger-summary')
+const adultCount = document.querySelector('#adult-count')
+const childCount = document.querySelector('#child-count')
+const infantCount = document.querySelector('#infant-count')
+const cabinClass = document.querySelector('#cabin-class')
+
+const formatDateValue = (type) => {
+  return document.querySelector(`.date-select[data-date-type="${type}"]`).value
+}
+
+const toggleTripType = () => {
+  const isRoundTrip = tripRound.checked
+  returnDateGroup.classList.toggle('hidden', !isRoundTrip)
+}
+
+tripRound.addEventListener('change', toggleTripType)
+tripOneWay.addEventListener('change', toggleTripType)
+
+toggleTripType()
+
+const updatePassengerSummary = () => {
+  const adult = Number(adultCount.textContent)
+  const child = Number(childCount.textContent)
+  const infant = Number(infantCount.textContent)
+  const total = adult + child + infant
+
+  const text = [
+    adult ? `${adult} Người lớn` : '',
+    child ? `${child} Trẻ em` : '',
+    infant ? `${infant} Em bé` : ''
+  ].filter(Boolean).join(', ')
+
+  passengerSummary.textContent = total > 0 ? text : '0 hành khách'
+}
+
+document.querySelectorAll('.counter-btn').forEach((button) => {
+  button.addEventListener('click', () => {
+    const type = button.dataset.type
+    const action = button.dataset.action
+    const valueEl = document.querySelector(`#${type}-count`)
+    let value = Number(valueEl.textContent)
+
+    if (action === 'plus') {
+      value += 1
+    } else if (action === 'minus' && value > 0) {
+      value -= 1
+    }
+
+    if (type === 'adult' && value === 0) {
+      value = 1
+    }
+
+    valueEl.textContent = value
+    updatePassengerSummary()
+  })
+})
+
+const formatCurrency = (value) => new Intl.NumberFormat('vi-VN', {
+  style: 'currency',
+  currency: 'VND',
+  maximumFractionDigits: 0
+}).format(value)
+
+const cityNames = {
+  HAN: 'Hà Nội',
+  SGN: 'TP. Hồ Chí Minh',
+  DAD: 'Đà Nẵng',
+  CXR: 'Nha Trang'
+}
+
+const getCityNameFromSelect = (selectElement) => cityNames[selectElement.value]
+
+let allFlights = []
+
+const createYearlyFlights = (flightTemplates) => {
+  const yearlyFlights = []
+  const startDate = new Date(Date.UTC(2026, 0, 1))
+
+  flightTemplates.forEach((template) => {
+    for (let dayIndex = 0; dayIndex < 365; dayIndex += 1) {
+      const date = new Date(startDate)
+      date.setUTCDate(startDate.getUTCDate() + dayIndex)
+
+      yearlyFlights.push({
+        ...template,
+        ngay: date.toISOString().slice(0, 10)
+      })
+    }
+  })
+
+  return yearlyFlights
+}
+
+const renderFlights = (flights) => {
+  const list = document.querySelector('#results-list')
+  const summary = document.querySelector('#results-summary')
+  const visibleFlights = []
+  const flightsByCabin = flights.reduce((groups, flight) => {
+    const cabinFlights = groups.get(flight.hangGhe) || []
+    cabinFlights.push(flight)
+    groups.set(flight.hangGhe, cabinFlights)
+    return groups
+  }, new Map())
+
+  while (visibleFlights.length < 10) {
+    let addedFlight = false
+
+    for (const cabinFlights of flightsByCabin.values()) {
+      const nextFlight = cabinFlights[visibleFlights.length % cabinFlights.length]
+
+      if (nextFlight && !visibleFlights.includes(nextFlight)) {
+        visibleFlights.push(nextFlight)
+        addedFlight = true
+      }
+
+      if (visibleFlights.length === 10) break
+    }
+
+    if (!addedFlight) break
+  }
+
+  if (!list) return
+
+  if (!visibleFlights.length) {
+    if (summary) summary.textContent = 'Không có chuyến bay phù hợp với lựa chọn hiện tại.'
+    list.innerHTML = '<div class="flight-empty">Không tìm thấy chuyến bay phù hợp.</div>'
+    return
+  }
+
+  if (summary) {
+    const cabinText = cabinClass.value === 'Tất cả' ? 'Phổ thông và Thương gia' : cabinClass.value
+    summary.textContent = `${getCityNameFromSelect(fromCity)} → ${getCityNameFromSelect(toCity)} · ${visibleFlights.length} chuyến · ${cabinText}`
+  }
+
+  list.innerHTML = visibleFlights.map((flight) => `
+    <article class="flight-card">
+      <div class="flight-main">
+        <div class="flight-code-block">
+          <span class="flight-code">${flight.maChuyen}</span>
+          <span class="flight-cabin">${flight.hangGhe}</span>
+        </div>
+
+        <div class="flight-route">
+          <div class="route-point">
+            <strong>${flight.gioDi}</strong>
+            <span>${flight.diemDi}</span>
+          </div>
+
+          <div class="route-line">
+            <span></span>
+            <small>${flight.ngay}</small>
+          </div>
+
+          <div class="route-point right">
+            <strong>${flight.gioDen}</strong>
+            <span>${flight.diemDen}</span>
+          </div>
+        </div>
+      </div>
+
+      <div class="flight-side">
+        <div class="flight-price">${formatCurrency(flight.gia)}</div>
+        <button class="flight-book-btn" type="button">Chọn</button>
+      </div>
+    </article>
+  `).join('')
+}
+
+const applyFlightFilter = () => {
+  const from = getCityNameFromSelect(fromCity)
+  const to = getCityNameFromSelect(toCity)
+  const selectedCabin = cabinClass.value
+
+  const filteredFlights = allFlights.filter((flight) => {
+    const matchesRoute = flight.diemDi === from && flight.diemDen === to
+    const matchesCabin = selectedCabin === 'Tất cả' || flight.hangGhe === selectedCabin
+
+    return matchesRoute && matchesCabin
+  })
+
+  renderFlights(filteredFlights)
+}
+
+fetch('/data/db.json')
+  .then((response) => {
+    if (!response.ok) throw new Error('Không tìm thấy dữ liệu chuyến bay')
+    return response.json()
+  })
+  .then((data) => {
+    allFlights = createYearlyFlights(data.flights || [])
+    applyFlightFilter()
+  })
+  .catch((error) => {
+    const list = document.querySelector('#results-list')
+    if (list) {
+      list.innerHTML = `<div class="flight-empty">${error.message}</div>`
+    }
+  })
 
 // Nút tìm chuyến bay
-document.querySelector('#search-btn').addEventListener('click', () => {
-  alert('Đang tìm chuyến bay...')
+document.querySelector('#flight-search-form').addEventListener('submit', (event) => {
+  event.preventDefault()
+
+  const from = getCityNameFromSelect(fromCity)
+  const to = getCityNameFromSelect(toCity)
+  const departureDate = formatDateValue('departure')
+  const returnDate = formatDateValue('return')
+  const tripType = tripRound.checked ? 'Khứ hồi' : 'Một chiều'
+  const adult = Number(adultCount.textContent)
+  const child = Number(childCount.textContent)
+  const infant = Number(infantCount.textContent)
+
+  const summary = tripType === 'Khứ hồi'
+    ? `\nNgày về: ${returnDate}`
+    : ''
+
+  alert(`Tìm chuyến bay:\nLoại hành trình: ${tripType}\nĐiểm đi: ${from}\nĐiểm đến: ${to}\nNgày đi: ${departureDate}${summary}\nSố hành khách: ${adult} Người lớn, ${child} Trẻ em, ${infant} Em bé`)
+
+  applyFlightFilter()
 })
+
+fromCity.addEventListener('change', applyFlightFilter)
+toCity.addEventListener('change', applyFlightFilter)
+const dateSelects = document.querySelectorAll('.date-select')
+dateSelects.forEach((select) => select.addEventListener('change', applyFlightFilter))
+if (cabinClass) {
+  cabinClass.addEventListener('change', applyFlightFilter)
+}
 
 // Nút đặt vé
 document.querySelector('#promotion-btn').addEventListener('click', () => {
