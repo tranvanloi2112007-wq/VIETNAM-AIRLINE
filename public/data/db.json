@@ -1,0 +1,88 @@
+{
+  "flights": [
+    {
+      "id": "VN101",
+      "flightNumber": "VN 208",
+      "departure": "HAN",
+      "departureName": "Hà Nội",
+      "destination": "SGN",
+      "destinationName": "TP. Hồ Chí Minh",
+      "date": "2026-10-21",
+      "departureTime": "08:00",
+      "arrivalTime": "10:10",
+      "price": 1550000,
+      "class": "Phổ thông",
+      "availableSeats": 25
+    },
+    {
+      "id": "VN102",
+      "flightNumber": "VN 216",
+      "departure": "HAN",
+      "departureName": "Hà Nội",
+      "destination": "SGN",
+      "destinationName": "TP. Hồ Chí Minh",
+      "date": "2026-10-21",
+      "departureTime": "14:30",
+      "arrivalTime": "16:40",
+      "price": 1850000,
+      "class": "Phổ thông",
+      "availableSeats": 12
+    },
+    {
+      "id": "VN103",
+      "flightNumber": "VN 220",
+      "departure": "HAN",
+      "departureName": "Hà Nội",
+      "destination": "SGN",
+      "destinationName": "TP. Hồ Chí Minh",
+      "date": "2026-10-21",
+      "departureTime": "19:00",
+      "arrivalTime": "21:10",
+      "price": 3500000,
+      "class": "Thương gia",
+      "availableSeats": 5
+    },
+    {
+      "id": "VN104",
+      "flightNumber": "VN 161",
+      "departure": "HAN",
+      "departureName": "Hà Nội",
+      "destination": "DAD",
+      "destinationName": "Đà Nẵng",
+      "date": "2026-10-21",
+      "departureTime": "09:15",
+      "arrivalTime": "10:35",
+      "price": 1200000,
+      "class": "Phổ thông",
+      "availableSeats": 18
+    },
+    {
+      "id": "VN105",
+      "flightNumber": "VN 213",
+      "departure": "SGN",
+      "departureName": "TP. Hồ Chí Minh",
+      "destination": "HAN",
+      "destinationName": "Hà Nội",
+      "date": "2026-10-25",
+      "departureTime": "11:00",
+      "arrivalTime": "13:10",
+      "price": 1600000,
+      "class": "Phổ thông",
+      "availableSeats": 30
+    },
+    {
+      "id": "VN106",
+      "flightNumber": "VN 135",
+      "departure": "SGN",
+      "departureName": "TP. Hồ Chí Minh",
+      "destination": "CXR",
+      "destinationName": "Nha Trang",
+      "date": "2026-10-22",
+      "departureTime": "15:20",
+      "arrivalTime": "16:30",
+      "price": 980000,
+      "class": "Phổ thông",
+      "availableSeats": 8
+    }
+  ]
+}

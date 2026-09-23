@@ -136,6 +136,14 @@ document.querySelector('#app').innerHTML = `
     </div>
   </section>
 
+  <!-- KẾT QUẢ TÌM KIẾM CHUYẾN BAY -->
+  <section class="flight-results-section" style="max-width: 1100px; margin: 30px auto; padding: 0 20px;">
+    <h2 id="results-title" style="color: #00539F; margin-bottom: 20px; text-align: center; display: none;">
+      Danh sách chuyến bay phù hợp
+    </h2>
+    <div id="flight-list-container"></div>
+  </section>
+
   <!-- QUICK SERVICES -->
   <section class="services" id="services">
     <div class="section-container">
@@ -278,13 +286,13 @@ document.querySelector('#app').innerHTML = `
 
 // ------------------- XỬ LÝ LOGIC SỰ KIỆN -------------------
 
-// 1. Set ngày mặc định cho ô Ngày đi (ngày hiện tại)
+// Set ngày mặc định cho ô Ngày đi
 const departureDateInput = document.querySelector('#departure-date')
 if (departureDateInput) {
-  departureDateInput.value = new Date().toISOString().split('T')[0]
+  departureDateInput.value = '2026-10-21' // Set mẫu ngày có sẵn dữ liệu để tiện test
 }
 
-// 2. Ẩn/hiện ô "Ngày về" khi chọn Khứ hồi / Một chiều
+// Ẩn/hiện ô Ngày về
 const roundTripRadio = document.querySelector('#trip-round')
 const oneWayRadio = document.querySelector('#trip-oneway')
 const returnDateGroup = document.querySelector('#return-date-group')
@@ -297,7 +305,7 @@ oneWayRadio.addEventListener('change', () => {
   returnDateGroup.style.display = 'none'
 })
 
-// 3. Đổi điểm đi / điểm đến (Swap)
+// Đổi điểm đi / điểm đến (Swap)
 const swapBtn = document.querySelector('#swap-btn')
 swapBtn.addEventListener('click', () => {
   const departureSelect = document.querySelector('#departure')
@@ -308,40 +316,101 @@ swapBtn.addEventListener('click', () => {
   destinationSelect.value = temp
 })
 
-// 4. Xử lý Submit Form Tìm chuyến bay
+// HÀM HIỂN THỊ DANH SÁCH CHUYẾN BAY RA GIAO DIỆN
+function renderFlights(flights) {
+  const container = document.querySelector('#flight-list-container')
+  const title = document.querySelector('#results-title')
+  
+  title.style.display = 'block'
+  container.innerHTML = ''
+
+  if (flights.length === 0) {
+    container.innerHTML = `
+      <div style="text-align: center; padding: 30px; background: #fff; border-radius: 8px; box-shadow: 0 2px 8px rgba(0,0,0,0.1);">
+        <p style="color: #666; font-size: 16px;">Không tìm thấy chuyến bay nào phù hợp.</p>
+        <small style="color: #999;">Gợi ý: Thử chọn Hà Nội (HAN) -> TP.HCM (SGN) ngày 2026-10-21</small>
+      </div>
+    `
+    return
+  }
+
+  flights.forEach(flight => {
+    const flightCard = document.createElement('div')
+    flightCard.className = 'flight-card'
+    flightCard.style.cssText = `
+      background: #ffffff;
+      border-radius: 8px;
+      padding: 20px;
+      margin-bottom: 15px;
+      box-shadow: 0 2px 8px rgba(0,0,0,0.08);
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      border-left: 5px solid #00539F;
+    `
+
+    flightCard.innerHTML = `
+      <div>
+        <span style="background: #e6f0fa; color: #00539F; padding: 4px 8px; border-radius: 4px; font-weight: bold; font-size: 13px;">
+          ${flight.flightNumber}
+        </span>
+        <span style="margin-left: 10px; color: #666; font-size: 14px;">Hạng: ${flight.class}</span>
+        <div style="margin-top: 10px; font-size: 18px; font-weight: bold; color: #333;">
+          ${flight.departureTime} (${flight.departure}) ➔ ${flight.arrivalTime} (${flight.destination})
+        </div>
+        <div style="color: #666; font-size: 13px; margin-top: 5px;">
+          Ngày bay: ${flight.date} | Còn ${flight.availableSeats} chỗ
+        </div>
+      </div>
+      <div style="text-align: right;">
+        <div style="font-size: 20px; font-weight: bold; color: #d9534f; margin-bottom: 8px;">
+          ${flight.price.toLocaleString('vi-VN')} VNĐ
+        </div>
+        <button style="background-color: #00539F; color: #fff; border: none; padding: 8px 16px; border-radius: 4px; font-weight: bold; cursor: pointer;">
+          Chọn chuyến bay
+        </button>
+      </div>
+    `
+
+    container.appendChild(flightCard)
+  })
+}
+
+// XỬ LÝ SUBMIT FORM TÌM KIẾM
 const flightSearchForm = document.querySelector('#flight-search-form')
-flightSearchForm.addEventListener('submit', (e) => {
+flightSearchForm.addEventListener('submit', async (e) => {
   e.preventDefault()
 
   const departure = document.querySelector('#departure').value
   const destination = document.querySelector('#destination').value
   const departureDate = document.querySelector('#departure-date').value
-  const returnDate = document.querySelector('#return-date').value
-  const passengers = document.querySelector('#passengers').value
-  const isRoundTrip = document.querySelector('#trip-round').checked
 
   if (departure === destination) {
     alert('Điểm đi và điểm đến không được trùng nhau!')
     return
   }
 
-  const searchData = {
-    tripType: isRoundTrip ? 'round' : 'oneway',
-    departure,
-    destination,
-    departureDate,
-    returnDate: isRoundTrip ? returnDate : null,
-    passengers
+  try {
+    const response = await fetch('/data/db.json')
+    const data = await response.json()
+
+    // Lọc danh sách chuyến bay khớp dữ liệu
+    const matchedFlights = data.flights.filter(flight => {
+      return flight.departure === departure && 
+             flight.destination === destination && 
+             flight.date === departureDate
+    })
+
+    // Gọi hàm hiển thị kết quả ra màn hình
+    renderFlights(matchedFlights)
+
+  } catch (error) {
+    console.error('Lỗi tải dữ liệu chuyến bay:', error)
+    alert('Không thể tải dữ liệu từ public/data/db.json')
   }
-
-  // Lưu vào LocalStorage để trang Danh sách chuyến bay sử dụng
-  localStorage.setItem('searchFlightQuery', JSON.stringify(searchData))
-
-  console.log('Thông tin tìm kiếm chuyến bay:', searchData)
-  alert(`Đang tìm chuyến bay từ ${departure} đến ${destination} ngày ${departureDate} cho ${passengers} hành khách!`)
 })
 
-// 5. Nút đặt vé ở phần Promotion
+// Nút đặt vé ở phần Promotion
 document.querySelector('#promotion-btn').addEventListener('click', () => {
   document.querySelector('#flight-search').scrollIntoView({
     behavior: 'smooth'
