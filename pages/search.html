@@ -1,0 +1,54 @@
+<!DOCTYPE html>
+<html lang="vi">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Tìm kiếm chuyến bay - Vietnam Airline</title>
+    <!-- Trỏ đường dẫn tương đối ra thư mục style ở gốc -->
+    <link rel="stylesheet" href="../style/style.css">
+</head>
+<body>
+
+    <div class="search-container">
+        <h2>TÌM KIẾM CHUYẾN BAY</h2>
+        <form id="flightSearchForm">
+            <div class="form-group">
+                <label for="departure">Điểm đi:</label>
+                <select id="departure" name="departure" required>
+                    <option value="">-- Chọn điểm đi --</option>
+                    <option value="HAN">Hà Nội (HAN)</option>
+                    <option value="SGN">TP. Hồ Chí Minh (SGN)</option>
+                    <option value="DAD">Đà Nẵng (DAD)</option>
+                    <option value="CXR">Nha Trang (CXR)</option>
+                </select>
+            </div>
+
+            <div class="form-group">
+                <label for="destination">Điểm đến:</label>
+                <select id="destination" name="destination" required>
+                    <option value="">-- Chọn điểm đến --</option>
+                    <option value="HAN">Hà Nội (HAN)</option>
+                    <option value="SGN">TP. Hồ Chí Minh (SGN)</option>
+                    <option value="DAD">Đà Nẵng (DAD)</option>
+                    <option value="CXR">Nha Trang (CXR)</option>
+                </select>
+            </div>
+
+            <div class="form-group">
+                <label for="departureDate">Ngày đi:</label>
+                <input type="date" id="departureDate" name="departureDate" required>
+            </div>
+
+            <div class="form-group">
+                <label for="passengers">Số hành khách:</label>
+                <input type="number" id="passengers" name="passengers" min="1" max="10" value="1" required>
+            </div>
+
+            <button type="submit" class="btn-search">Tìm chuyến bay</button>
+        </form>
+    </div>
+
+    <!-- Nhúng file JS bằng Type Module (chuẩn Vite) -->
+    <script type="module" src="../js/search.js"></script>
+</body>
+</html>
