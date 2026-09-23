@@ -542,13 +542,15 @@ const renderFlights = (flights) => {
 const applyFlightFilter = () => {
   const from = getCityNameFromSelect(fromCity)
   const to = getCityNameFromSelect(toCity)
+  const departureDate = formatDateValue('departure')
   const selectedCabin = cabinClass.value
 
   const filteredFlights = allFlights.filter((flight) => {
     const matchesRoute = flight.diemDi === from && flight.diemDen === to
+    const matchesDate = flight.ngay === departureDate
     const matchesCabin = selectedCabin === 'Tất cả' || flight.hangGhe === selectedCabin
 
-    return matchesRoute && matchesCabin
+    return matchesRoute && matchesDate && matchesCabin
   })
 
   renderFlights(filteredFlights)
