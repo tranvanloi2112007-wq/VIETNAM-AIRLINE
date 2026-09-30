@@ -137,7 +137,7 @@ document.querySelector('#app').innerHTML = `
           <div class="input-box">
             <span class="input-icon">✦</span>
             <select id="cabin-class" class="field-control">
-              <option value="Tất cả">Tất cả hạng ghế</option>
+              <option value="Tất cả">Tất cả hạng</option>
               <option value="Phổ thông">Phổ thông</option>
               <option value="Phổ thông đặc biệt">Phổ thông đặc biệt</option>
               <option value="Thương gia">Thương gia</option>
@@ -145,13 +145,14 @@ document.querySelector('#app').innerHTML = `
           </div>
         </div>
 
-        <!-- BỘ CHỌN SỐ LƯỢNG HÀNH KHÁCH -->
-        <div class="form-group passenger-field">
-          <label>Số hành khách</label>
-          <div class="input-box passenger-box" id="passenger-box" style="position: relative; cursor: pointer;">
+        <div class="form-group passenger-field" id="passenger-field">
+          <label for="passenger-toggle">Số hành khách</label>
+          <div class="input-box passenger-box">
             <span class="input-icon">♙</span>
-            <div class="passenger-summary" id="passenger-summary">1 Người lớn</div>
-            
+            <button class="passenger-toggle" id="passenger-toggle" type="button" aria-expanded="false" aria-controls="passenger-menu">
+              <span class="passenger-summary" id="passenger-summary">1 Người lớn</span>
+              <span class="passenger-chevron" aria-hidden="true">⌄</span>
+            </button>
             <div class="passenger-menu" id="passenger-menu">
               <div class="passenger-row">
                 <div>
@@ -188,6 +189,10 @@ document.querySelector('#app').innerHTML = `
                   <button type="button" class="counter-btn" data-type="infant" data-action="plus">＋</button>
                 </div>
               </div>
+              <div class="passenger-menu-footer">
+                <small>Tối đa 9 khách · Mỗi em bé cần một người lớn đi cùng</small>
+                <button class="passenger-done" id="passenger-done" type="button">Xong</button>
+              </div>
             </div>
           </div>
         </div>
@@ -207,6 +212,19 @@ document.querySelector('#app').innerHTML = `
         <h2>Danh sách chuyến bay mẫu</h2>
         <p class="results-summary" id="results-summary">Đang tải chuyến bay...</p>
       </div>
+
+      <section class="fare-comparison" id="fare-comparison" aria-label="So sánh giá vé theo hạng ghế">
+        <div class="fare-comparison-heading">
+          <div>
+            <p>GIÁ VÉ THEO HẠNG</p>
+            <h3 id="fare-comparison-route">Đang tải giá vé...</h3>
+          </div>
+          <span id="fare-comparison-date"></span>
+        </div>
+        <div class="fare-comparison-options" id="fare-comparison-options"></div>
+        <p class="fare-passenger-summary" id="fare-passenger-summary"></p>
+        <p class="fare-comparison-note">Tổng dự kiến = giá mẫu mỗi khách × tổng số khách; chưa áp dụng giá riêng cho trẻ em/em bé, thuế hoặc phí.</p>
+      </section>
 
       <div class="results-list" id="results-list"></div>
     </div>
@@ -367,6 +385,14 @@ swapBtn.addEventListener('click', () => {
 const tripRound = document.querySelector('#trip-round')
 const tripOneWay = document.querySelector('#trip-oneway')
 const returnDateGroup = document.querySelector('#return-date-group')
+const passengerSummary = document.querySelector('#passenger-summary')
+const passengerField = document.querySelector('#passenger-field')
+const passengerToggle = document.querySelector('#passenger-toggle')
+const passengerDone = document.querySelector('#passenger-done')
+const adultCount = document.querySelector('#adult-count')
+const childCount = document.querySelector('#child-count')
+const infantCount = document.querySelector('#infant-count')
+const cabinClass = document.querySelector('#cabin-class')
 
 const formatDateValue = (type) => {
   return document.querySelector(`.date-select[data-date-type="${type}"]`).value
@@ -416,9 +442,23 @@ const updatePassengerSummary = () => {
   ].filter(Boolean).join(', ')
 
   passengerSummary.textContent = total > 0 ? text : '0 hành khách'
+  passengerToggle.setAttribute('aria-label', `Hành khách: ${text || '0 hành khách'}`)
+
+  document.querySelectorAll('.counter-btn').forEach((button) => {
+    const type = button.dataset.type
+    const action = button.dataset.action
+    const count = Number(document.querySelector(`#${type}-count`).textContent)
+
+    if (action === 'plus') {
+      button.disabled = total >= 9 || (type === 'infant' && infant >= adult)
+    } else if (type === 'adult') {
+      button.disabled = adult <= Math.max(1, infant)
+    } else {
+      button.disabled = count === 0
+    }
+  })
 }
 
-// Xử lý tăng / giảm số lượng
 document.querySelectorAll('.counter-btn').forEach((button) => {
   button.addEventListener('click', (e) => {
     e.stopPropagation() // Tránh đóng popup menu
@@ -426,25 +466,16 @@ document.querySelectorAll('.counter-btn').forEach((button) => {
     const action = button.dataset.action
     const valueEl = document.querySelector(`#${type}-count`)
     let value = Number(valueEl.textContent)
+    const adult = Number(adultCount.textContent)
+    const child = Number(childCount.textContent)
+    const infant = Number(infantCount.textContent)
+    const total = adult + child + infant
 
     if (action === 'plus') {
-      const total = Number(adultCount.textContent) + Number(childCount.textContent) + Number(infantCount.textContent)
-      if (total >= 9) {
-        alert('Tối đa 9 hành khách mỗi lượt đặt!')
-        return
-      }
-      if (type === 'infant' && Number(infantCount.textContent) >= Number(adultCount.textContent)) {
-        alert('Số lượng em bé không vượt quá số người lớn!')
-        return
-      }
+      if (total >= 9 || (type === 'infant' && infant >= adult)) return
       value += 1
-    } else if (action === 'minus' && value > 0) {
+    } else if (action === 'minus' && value > 0 && (type !== 'adult' || value > Math.max(1, infant))) {
       value -= 1
-    }
-
-    // Tối thiểu 1 người lớn
-    if (type === 'adult' && value === 0) {
-      value = 1
     }
 
     valueEl.textContent = value
@@ -455,10 +486,34 @@ document.querySelectorAll('.counter-btn').forEach((button) => {
     }
 
     updatePassengerSummary()
+    applyFlightFilter()
   })
 })
 
-// 4. HIỂN THỊ VÀ LỌC DANH SÁCH CHUYẾN BAY
+const setPassengerMenuOpen = (isOpen) => {
+  passengerField.classList.toggle('is-open', isOpen)
+  passengerToggle.setAttribute('aria-expanded', String(isOpen))
+}
+
+passengerToggle.addEventListener('click', () => {
+  setPassengerMenuOpen(!passengerField.classList.contains('is-open'))
+})
+passengerDone.addEventListener('click', () => {
+  setPassengerMenuOpen(false)
+  passengerToggle.focus()
+})
+document.addEventListener('click', (event) => {
+  if (!passengerField.contains(event.target)) setPassengerMenuOpen(false)
+})
+document.addEventListener('keydown', (event) => {
+  if (event.key === 'Escape' && passengerField.classList.contains('is-open')) {
+    setPassengerMenuOpen(false)
+    passengerToggle.focus()
+  }
+})
+
+updatePassengerSummary()
+
 const formatCurrency = (value) => new Intl.NumberFormat('vi-VN', {
   style: 'currency',
   currency: 'VND',
@@ -498,7 +553,111 @@ const createYearlyFlights = (flightTemplates) => {
 const renderFlights = (flights) => {
   const list = document.querySelector('#results-list')
   const summary = document.querySelector('#results-summary')
-  const visibleFlights = flights.slice(0, 10)
+  const fareOptionsContainer = document.querySelector('#fare-comparison-options')
+  const departureDate = formatDateValue('departure')
+  const routeFares = allFlights
+    .filter((flight) => flight.diemDi === getCityNameFromSelect(fromCity)
+      && flight.diemDen === getCityNameFromSelect(toCity)
+      && flight.ngay === departureDate)
+    .reduce((fares, flight) => {
+      const currentFare = fares[flight.hangGhe]
+      if (currentFare === undefined || flight.gia < currentFare.gia) {
+        fares[flight.hangGhe] = {
+          gia: flight.gia,
+          maChuyen: flight.maChuyen,
+          gioDi: flight.gioDi
+        }
+      }
+      return fares
+    }, {})
+
+  document.querySelector('#fare-comparison-route').textContent = `${getCityNameFromSelect(fromCity)} → ${getCityNameFromSelect(toCity)}`
+  const fareDate = departureDate ? new Date(`${departureDate}T12:00:00`) : null
+  document.querySelector('#fare-comparison-date').textContent = fareDate && !Number.isNaN(fareDate.valueOf())
+    ? new Intl.DateTimeFormat('vi-VN', {
+        day: '2-digit',
+        month: 'long',
+        year: 'numeric'
+      }).format(fareDate)
+    : 'Chọn ngày khởi hành'
+  const passengerBreakdown = [
+    `${adultCount.textContent} người lớn`,
+    `${childCount.textContent} trẻ em`,
+    `${infantCount.textContent} em bé`
+  ].join(' · ')
+  const passengerCount = Number(adultCount.textContent)
+    + Number(childCount.textContent)
+    + Number(infantCount.textContent)
+  document.querySelector('#fare-passenger-summary').textContent = `Đang tính cho: ${passengerBreakdown}`
+
+  const renderFareBreakdown = (unitPrice) => {
+    const passengerCategories = [
+      { label: 'Người lớn', count: Number(adultCount.textContent) },
+      { label: 'Trẻ em', count: Number(childCount.textContent) },
+      { label: 'Em bé', count: Number(infantCount.textContent) }
+    ]
+    const estimatedTotal = passengerCategories.reduce((total, category) => total + category.count * unitPrice, 0)
+
+    return `
+      <details class="fare-breakdown">
+        <summary>Chi tiết cách tính</summary>
+        <dl>
+          ${passengerCategories.map((category) => `
+            <div>
+              <dt>${category.label}<small>${category.count} × ${formatCurrency(unitPrice)}</small></dt>
+              <dd>${formatCurrency(category.count * unitPrice)}</dd>
+            </div>
+          `).join('')}
+          <div class="fare-breakdown-total">
+            <dt>Tổng dự kiến</dt>
+            <dd>${formatCurrency(estimatedTotal)}</dd>
+          </div>
+        </dl>
+      </details>
+    `
+  }
+
+  fareOptionsContainer.innerHTML = ['Phổ thông', 'Thương gia'].map((cabin) => `
+    <div class="fare-comparison-option${cabin === cabinClass.value ? ' is-active' : ''}${routeFares[cabin] === undefined ? ' is-unavailable' : ''}">
+      <span class="fare-cabin-name">${cabin}</span>
+      <strong>${routeFares[cabin] === undefined ? 'Chưa có giá mẫu' : formatCurrency(routeFares[cabin].gia)}</strong>
+      <small>${routeFares[cabin] === undefined
+        ? 'Chưa có dữ liệu cho tuyến và ngày này'
+        : `Chuyến ${routeFares[cabin].maChuyen} · ${routeFares[cabin].gioDi} · Giá mẫu / khách`}</small>
+      ${routeFares[cabin] === undefined ? '' : `
+        <div class="fare-total-row">
+          <span>Tổng dự kiến · ${passengerCount} khách</span>
+          <strong>${formatCurrency(routeFares[cabin].gia * passengerCount)}</strong>
+        </div>
+        ${renderFareBreakdown(routeFares[cabin].gia)}
+      `}
+    </div>
+  `).join('')
+
+  const visibleFlights = []
+  const flightsByCabin = flights.reduce((groups, flight) => {
+    const cabinFlights = groups.get(flight.hangGhe) || []
+    cabinFlights.push(flight)
+    groups.set(flight.hangGhe, cabinFlights)
+    return groups
+  }, new Map())
+
+  while (visibleFlights.length < 10) {
+    let addedFlight = false
+
+    for (const cabinFlights of flightsByCabin.values()) {
+      const nextFlight = cabinFlights[visibleFlights.length % cabinFlights.length]
+
+      if (nextFlight && !visibleFlights.includes(nextFlight)) {
+        visibleFlights.push(nextFlight)
+        addedFlight = true
+      }
+
+      if (visibleFlights.length === 10) break
+    }
+
+    if (!addedFlight) break
+  }
 
   if (!list) return
 

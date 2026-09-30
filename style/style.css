@@ -620,9 +620,28 @@ input {
 
 .passenger-box {
   position: relative;
-  justify-content: space-between;
-  cursor: pointer;
   padding-right: 10px;
+}
+
+.passenger-toggle {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  flex: 1;
+  min-width: 0;
+  height: 100%;
+  border: 0;
+  padding: 0;
+  color: inherit;
+  background: transparent;
+  text-align: left;
+  cursor: pointer;
+}
+
+.passenger-toggle:focus-visible {
+  outline: 2px solid #8bb3ff;
+  outline-offset: 3px;
+  border-radius: 4px;
 }
 
 .passenger-summary {
@@ -630,6 +649,16 @@ input {
   color: #172033;
   font-size: 15px;
   font-weight: 600;
+}
+
+.passenger-chevron {
+  margin-left: 8px;
+  color: #64748b;
+  transition: transform 0.18s ease;
+}
+
+.passenger-field.is-open .passenger-chevron {
+  transform: rotate(180deg);
 }
 
 .passenger-menu {
@@ -646,8 +675,7 @@ input {
   z-index: 30;
 }
 
-.passenger-field:hover .passenger-menu,
-.passenger-field:focus-within .passenger-menu {
+.passenger-field.is-open .passenger-menu {
   display: block;
 }
 
@@ -697,6 +725,42 @@ input {
 
 .counter-btn:hover {
   transform: translateY(-1px);
+}
+
+.counter-btn:disabled {
+  color: #a7b1bf;
+  background: #f1f3f6;
+  border-color: #e1e5ea;
+  cursor: not-allowed;
+  transform: none;
+}
+
+.passenger-menu-footer {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 10px;
+  margin-top: 8px;
+  padding-top: 12px;
+  border-top: 1px solid #edf2fb;
+}
+
+.passenger-menu-footer small {
+  color: #64748b;
+  font-size: 10px;
+  line-height: 1.4;
+}
+
+.passenger-done {
+  flex: 0 0 auto;
+  border: 0;
+  border-radius: 5px;
+  padding: 7px 12px;
+  color: #ffffff;
+  background: #123b75;
+  cursor: pointer;
+  font-size: 12px;
+  font-weight: 700;
 }
 
 .swap-btn {
@@ -768,6 +832,215 @@ input {
   letter-spacing: 0 !important;
   font-weight: 400 !important;
   margin-top: 8px;
+}
+
+.fare-comparison {
+  margin: 0 auto 26px;
+  padding: 20px 22px 15px;
+  border: 1px solid #e0e8f1;
+  border-radius: 12px;
+  background: #f6f8fb;
+  text-align: left;
+}
+
+.fare-comparison-heading {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 16px;
+  margin-bottom: 14px;
+}
+
+.fare-comparison-heading p {
+  margin-bottom: 5px;
+  color: #56759b;
+  font-size: 10px;
+  font-weight: 700;
+  letter-spacing: 1px;
+}
+
+.fare-comparison-heading h3 {
+  color: #203752;
+  font-size: 17px;
+  font-weight: 700;
+}
+
+.fare-comparison-heading > span {
+  padding: 6px 9px;
+  border: 1px solid #e0e7ef;
+  border-radius: 5px;
+  color: #526780;
+  background: #ffffff;
+  font-size: 12px;
+  white-space: nowrap;
+}
+
+.fare-comparison-options {
+  display: grid;
+  grid-template-columns: repeat(2, minmax(0, 1fr));
+  gap: 14px;
+}
+
+.fare-comparison-option {
+  display: grid;
+  grid-template-columns: minmax(0, 1fr) auto;
+  align-items: center;
+  gap: 7px 12px;
+  min-width: 0;
+  min-height: 76px;
+  padding: 14px 16px;
+  border: 1px solid #e0e7ef;
+  border-radius: 9px;
+  background: #ffffff;
+  transition: border-color 0.18s ease, background 0.18s ease;
+}
+
+.fare-comparison-option.is-active {
+  border-color: #6e91bb;
+  background: #edf4fb;
+  box-shadow: inset 3px 0 #123b75;
+}
+
+.fare-comparison-option.is-unavailable {
+  background: #fbfcfd;
+}
+
+.fare-cabin-name {
+  color: #2d435c;
+  font-size: 14px;
+  font-weight: 700;
+}
+
+.fare-comparison-option strong {
+  color: #123b75;
+  font-size: 18px;
+  text-align: right;
+}
+
+.fare-comparison-option.is-unavailable strong {
+  color: #7b8796;
+  font-size: 12px;
+  font-weight: 600;
+}
+
+.fare-comparison-option small {
+  grid-column: 1 / -1;
+  color: #6d7f94;
+  font-size: 11px;
+}
+
+.fare-total-row {
+  display: flex;
+  grid-column: 1 / -1;
+  align-items: center;
+  justify-content: space-between;
+  gap: 10px;
+  margin-top: 4px;
+  padding-top: 9px;
+  border-top: 1px solid #e8edf3;
+}
+
+.fare-total-row span {
+  color: #526780;
+  font-size: 11px;
+}
+
+.fare-total-row strong {
+  color: #123b75;
+  font-size: 15px;
+  text-align: right;
+}
+
+.fare-breakdown {
+  grid-column: 1 / -1;
+  border-top: 1px solid #e8edf3;
+}
+
+.fare-breakdown summary {
+  padding: 10px 0 2px;
+  color: #315b8d;
+  cursor: pointer;
+  font-size: 11px;
+  font-weight: 700;
+  list-style-position: inside;
+}
+
+.fare-breakdown[open] summary {
+  padding-bottom: 9px;
+  border-bottom: 1px solid #edf1f6;
+}
+
+.fare-breakdown dl {
+  margin: 0;
+}
+
+.fare-breakdown dl > div {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 12px;
+  padding: 8px 0;
+}
+
+.fare-breakdown dt {
+  color: #526780;
+  font-size: 11px;
+}
+
+.fare-breakdown dt small {
+  display: block;
+  margin-top: 3px;
+  color: #7a8797;
+  font-size: 10px;
+}
+
+.fare-breakdown dd {
+  margin: 0;
+  color: #32465f;
+  font-size: 11px;
+  font-weight: 600;
+  text-align: right;
+  white-space: nowrap;
+}
+
+.fare-breakdown .fare-breakdown-total {
+  margin-top: 3px;
+  padding-top: 10px;
+  border-top: 1px solid #e8edf3;
+}
+
+.fare-breakdown-total dt,
+.fare-breakdown-total dd {
+  color: #123b75;
+  font-size: 12px;
+  font-weight: 800;
+}
+
+.fare-passenger-summary {
+  margin-top: 12px;
+  color: #526780;
+  font-size: 12px;
+}
+
+.fare-comparison-note {
+  margin-top: 12px;
+  color: #718096;
+  font-size: 11px;
+}
+
+@media (max-width: 600px) {
+  .fare-comparison {
+    padding: 15px;
+  }
+
+  .fare-comparison-options {
+    grid-template-columns: 1fr;
+  }
+
+  .fare-comparison-heading > span {
+    white-space: normal;
+    text-align: right;
+  }
 }
 
 /* ================= SERVICES ================= */
