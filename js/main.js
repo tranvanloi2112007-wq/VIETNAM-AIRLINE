@@ -17,12 +17,35 @@ document.querySelector('#app').innerHTML = `
         <a href="#contact">Liên hệ</a>
       </nav>
 
-      <div class="header-right">
-        <button class="language">VI ▾</button>
-        <button onclick="window.location.href='pages/login.html'" class="login-btn">
-          Đăng nhập
-        </button>
-      </div>
+     
+  <div class="header-right" id="authArea">
+    <button class="language">VI ▾</button>
+
+    <!-- Khi CHƯA đăng nhập -->
+    <div id="guestGroup" style="display: flex; gap: 10px;">
+      <button onclick="window.location.href='pages/login.html'" class="login-btn">
+        Đăng nhập
+      </button>
+    </div>
+
+   <!-- Khi ĐÃ đăng nhập -->
+<div id="userGroup" style="display: none; align-items: center; gap: 8px;">
+  <!-- Icon người dùng bằng Emoji hoặc SVG ký tự -->
+  <span class="user-icon" style="font-size: 18px;">👤</span>
+  
+  <span id="userEmail" style="font-weight: bold; color: #0056b3;"></span>
+  
+  <button id="logoutBtn" class="login-btn" style="background-color: #d9534f; border-color: #d9534f; margin-left: 5px;">
+    Đăng xuất
+  </button>
+</div>
+
+    
+
+
+  </div>
+      
+      
     </div>
   </header>
 
@@ -609,3 +632,48 @@ document.querySelector('#promotion-btn').addEventListener('click', () => {
     behavior: 'smooth'
   })
 })
+
+// ====================================================
+// XỬ LÝ TRẠNG THÁI ĐĂNG NHẬP & ĐĂNG XUẤT (AUTH)
+// ====================================================
+const checkAuthStatus = () => {
+  const guestGroup = document.querySelector('#guestGroup')
+  const userGroup = document.querySelector('#userGroup')
+  const userEmail = document.querySelector('#userEmail')
+  const logoutBtn = document.querySelector('#logoutBtn')
+
+  const token = localStorage.getItem('token')
+  const userStr = localStorage.getItem('user')
+
+  if (token && userStr) {
+    try {
+      const user = JSON.parse(userStr)
+
+      // Nếu đã đăng nhập: Ẩn nút đăng nhập, hiện tên user và nút đăng xuất
+      if (guestGroup) guestGroup.style.display = 'none'
+      if (userGroup) userGroup.style.display = 'flex'
+      if (userEmail) userEmail.textContent = user.name || user.email
+    } catch (e) {
+      console.error('Lỗi đọc dữ liệu người dùng:', e)
+    }
+  } else {
+    // Nếu chưa đăng nhập
+    if (guestGroup) guestGroup.style.display = 'flex'
+    if (userGroup) userGroup.style.display = 'none'
+  }
+
+  // Xử lý sự kiện bấm nút Đăng xuất
+  if (logoutBtn) {
+    logoutBtn.addEventListener('click', () => {
+      localStorage.removeItem('token')
+      localStorage.removeItem('user')
+
+      alert('Bạn đã đăng xuất thành công!')
+      // Refresh lại trang để cập nhật giao diện
+      window.location.reload()
+    })
+  }
+}
+
+// Gọi hàm kiểm tra ngay khi khởi chạy
+checkAuthStatus()

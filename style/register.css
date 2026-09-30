@@ -13,7 +13,7 @@ body {
     justify-content: center;
     align-items: center;
     background: linear-gradient(rgba(11, 59, 96, 0.45), rgba(11, 59, 96, 0.65)),
-                url('../public/img/banner.png') center/cover no-repeat;
+                url("../img/banner.png") center/cover no-repeat;
     padding: 20px;
 }
 

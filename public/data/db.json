@@ -1,6 +1,21 @@
 {
+  "users": [
+    {
+      "email": "tranvanloi2112007@gmail.com",
+      "password": "$2a$10$AYAI1c/RfmvuwhBHKZ9/4OyqViSO42cvA.CE3qUIlIaiDwusiX662",
+      "name": "TRẦN VĂN LỢI",
+      "id": 1
+    },
+    {
+      "email": "thang1672002@gmail.com",
+      "password": "$2a$10$wSovaP12mYbj26co1uiU5u/kNYwYBqKrvLTRAnHZbfF/APioqMYb2",
+      "name": "khó chánh",
+      "id": 2
+    }
+  ],
   "flights": [
     {
+      "id": "1",
       "maChuyen": "VN101",
       "diemDi": "Hà Nội",
       "diemDen": "TP. Hồ Chí Minh",
@@ -11,26 +26,7 @@
       "hangGhe": "Phổ thông"
     },
     {
-      "maChuyen": "VN103",
-      "diemDi": "Hà Nội",
-      "diemDen": "TP. Hồ Chí Minh",
-      "ngay": "2026-10-21",
-      "gioDi": "11:15",
-      "gioDen": "13:30",
-      "gia": 2250000,
-      "hangGhe": "Phổ thông đặc biệt"
-    },
-    {
-      "maChuyen": "VN105",
-      "diemDi": "Hà Nội",
-      "diemDen": "TP. Hồ Chí Minh",
-      "ngay": "2026-10-21",
-      "gioDi": "16:00",
-      "gioDen": "18:15",
-      "gia": 4200000,
-      "hangGhe": "Thương gia"
-    },
-    {
+      "id": "2",
       "maChuyen": "VN205",
       "diemDi": "Hà Nội",
       "diemDen": "Đà Nẵng",
@@ -41,26 +37,7 @@
       "hangGhe": "Phổ thông"
     },
     {
-      "maChuyen": "VN207",
-      "diemDi": "Hà Nội",
-      "diemDen": "Đà Nẵng",
-      "ngay": "2026-10-22",
-      "gioDi": "14:30",
-      "gioDen": "16:15",
-      "gia": 1850000,
-      "hangGhe": "Phổ thông đặc biệt"
-    },
-    {
-      "maChuyen": "VN209",
-      "diemDi": "Hà Nội",
-      "diemDen": "Đà Nẵng",
-      "ngay": "2026-10-22",
-      "gioDi": "19:00",
-      "gioDen": "20:45",
-      "gia": 3100000,
-      "hangGhe": "Thương gia"
-    },
-    {
+      "id": "3",
       "maChuyen": "VN310",
       "diemDi": "TP. Hồ Chí Minh",
       "diemDen": "Nha Trang",
@@ -71,16 +48,7 @@
       "hangGhe": "Phổ thông"
     },
     {
-      "maChuyen": "VN312",
-      "diemDi": "TP. Hồ Chí Minh",
-      "diemDen": "Nha Trang",
-      "ngay": "2026-10-23",
-      "gioDi": "15:10",
-      "gioDen": "16:50",
-      "gia": 1950000,
-      "hangGhe": "Phổ thông đặc biệt"
-    },
-    {
+      "id": "4",
       "maChuyen": "VN420",
       "diemDi": "Đà Nẵng",
       "diemDen": "Hà Nội",
@@ -91,16 +59,7 @@
       "hangGhe": "Thương gia"
     },
     {
-      "maChuyen": "VN422",
-      "diemDi": "Đà Nẵng",
-      "diemDen": "Hà Nội",
-      "ngay": "2026-10-24",
-      "gioDi": "09:00",
-      "gioDen": "10:50",
-      "gia": 1150000,
-      "hangGhe": "Phổ thông"
-    },
-    {
+      "id": "5",
       "maChuyen": "VN555",
       "diemDi": "Hà Nội",
       "diemDen": "TP. Hồ Chí Minh",
@@ -111,16 +70,7 @@
       "hangGhe": "Thương gia"
     },
     {
-      "maChuyen": "VN557",
-      "diemDi": "Hà Nội",
-      "diemDen": "TP. Hồ Chí Minh",
-      "ngay": "2026-10-25",
-      "gioDi": "12:00",
-      "gioDen": "14:15",
-      "gia": 1500000,
-      "hangGhe": "Phổ thông"
-    },
-    {
+      "id": "6",
       "maChuyen": "VN602",
       "diemDi": "TP. Hồ Chí Minh",
       "diemDen": "Hà Nội",
