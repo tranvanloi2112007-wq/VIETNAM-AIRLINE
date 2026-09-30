@@ -17,35 +17,25 @@ document.querySelector('#app').innerHTML = `
         <a href="#contact">Liên hệ</a>
       </nav>
 
-     
-  <div class="header-right" id="authArea">
-    <button class="language">VI ▾</button>
+      <div class="header-right" id="authArea">
+        <button class="language">VI ▾</button>
 
-    <!-- Khi CHƯA đăng nhập -->
-    <div id="guestGroup" style="display: flex; gap: 10px;">
-      <button onclick="window.location.href='pages/login.html'" class="login-btn">
-        Đăng nhập
-      </button>
-    </div>
+        <!-- Khi CHƯA đăng nhập -->
+        <div id="guestGroup" style="display: flex; gap: 10px;">
+          <button onclick="window.location.href='pages/login.html'" class="login-btn">
+            Đăng nhập
+          </button>
+        </div>
 
-   <!-- Khi ĐÃ đăng nhập -->
-<div id="userGroup" style="display: none; align-items: center; gap: 8px;">
-  <!-- Icon người dùng bằng Emoji hoặc SVG ký tự -->
-  <span class="user-icon" style="font-size: 18px;">👤</span>
-  
-  <span id="userEmail" style="font-weight: bold; color: #0056b3;"></span>
-  
-  <button id="logoutBtn" class="login-btn" style="background-color: #d9534f; border-color: #d9534f; margin-left: 5px;">
-    Đăng xuất
-  </button>
-</div>
-
-    
-
-
-  </div>
-      
-      
+        <!-- Khi ĐÃ đăng nhập -->
+        <div id="userGroup" style="display: none; align-items: center; gap: 8px;">
+          <span class="user-icon" style="font-size: 18px;">👤</span>
+          <span id="userEmail" style="font-weight: bold; color: #0056b3;"></span>
+          <button id="logoutBtn" class="login-btn" style="background-color: #d9534f; border-color: #d9534f; margin-left: 5px;">
+            Đăng xuất
+          </button>
+        </div>
+      </div>
     </div>
   </header>
 
@@ -131,7 +121,6 @@ document.querySelector('#app').innerHTML = `
           </div>
         </div>
 
-        <!-- BỔ SUNG ĐẦY ĐỦ CÁC HẠNG VÉ -->
         <div class="form-group">
           <label for="cabin-class">Hạng ghế</label>
           <div class="input-box">
@@ -369,19 +358,10 @@ document.querySelector('#app').innerHTML = `
   </footer>
 `
 
-// 1. ĐỔI ĐIỂM ĐI / ĐIỂM ĐẾN
+// 1. DOM ELEMENTS (Khai báo tập trung một lần duy nhất)
 const swapBtn = document.querySelector('#swap-btn')
 const fromCity = document.querySelector('#from-city')
 const toCity = document.querySelector('#to-city')
-
-swapBtn.addEventListener('click', () => {
-  const currentFrom = fromCity.value
-  fromCity.value = toCity.value
-  toCity.value = currentFrom
-  applyFlightFilter()
-})
-
-// 2. CHỌN LOẠI HÀNH TRÌNH (KHỨ HỒI / MỘT CHIỀU)
 const tripRound = document.querySelector('#trip-round')
 const tripOneWay = document.querySelector('#trip-oneway')
 const returnDateGroup = document.querySelector('#return-date-group')
@@ -394,8 +374,18 @@ const childCount = document.querySelector('#child-count')
 const infantCount = document.querySelector('#infant-count')
 const cabinClass = document.querySelector('#cabin-class')
 
+// 2. ĐỔI ĐIỂM ĐI / ĐIỂM ĐẾN
+swapBtn.addEventListener('click', () => {
+  const currentFrom = fromCity.value
+  fromCity.value = toCity.value
+  toCity.value = currentFrom
+  applyFlightFilter()
+})
+
+// 3. CHỌN LOẠI HÀNH TRÌNH (KHỨ HỒI / MỘT CHIỀU)
 const formatDateValue = (type) => {
-  return document.querySelector(`.date-select[data-date-type="${type}"]`).value
+  const el = document.querySelector(`.date-select[data-date-type="${type}"]`)
+  return el ? el.value : ''
 }
 
 const toggleTripType = () => {
@@ -407,28 +397,7 @@ tripRound.addEventListener('change', toggleTripType)
 tripOneWay.addEventListener('change', toggleTripType)
 toggleTripType()
 
-// 3. LOGIC BỘ CHỌN SỐ LƯỢNG HÀNH KHÁCH
-const passengerSummary = document.querySelector('#passenger-summary')
-const passengerBox = document.querySelector('#passenger-box')
-const passengerMenu = document.querySelector('#passenger-menu')
-const adultCount = document.querySelector('#adult-count')
-const childCount = document.querySelector('#child-count')
-const infantCount = document.querySelector('#infant-count')
-const cabinClass = document.querySelector('#cabin-class')
-
-// Ẩn/Hiện menu chọn người bay
-passengerBox.addEventListener('click', (e) => {
-  if (e.target.classList.contains('counter-btn')) return
-  passengerMenu.classList.toggle('active')
-})
-
-// Tự động đóng menu khi bấm ra ngoài
-document.addEventListener('click', (e) => {
-  if (!passengerBox.contains(e.target)) {
-    passengerMenu.classList.remove('active')
-  }
-})
-
+// 4. LOGIC BỘ CHỌN SỐ LƯỢNG HÀNH KHÁCH
 const updatePassengerSummary = () => {
   const adult = Number(adultCount.textContent)
   const child = Number(childCount.textContent)
@@ -461,7 +430,7 @@ const updatePassengerSummary = () => {
 
 document.querySelectorAll('.counter-btn').forEach((button) => {
   button.addEventListener('click', (e) => {
-    e.stopPropagation() // Tránh đóng popup menu
+    e.stopPropagation()
     const type = button.dataset.type
     const action = button.dataset.action
     const valueEl = document.querySelector(`#${type}-count`)
@@ -480,7 +449,6 @@ document.querySelectorAll('.counter-btn').forEach((button) => {
 
     valueEl.textContent = value
 
-    // Nếu người lớn giảm ít hơn em bé -> Tự điều chỉnh em bé bằng người lớn
     if (type === 'adult' && Number(infantCount.textContent) > value) {
       infantCount.textContent = value
     }
@@ -495,16 +463,20 @@ const setPassengerMenuOpen = (isOpen) => {
   passengerToggle.setAttribute('aria-expanded', String(isOpen))
 }
 
-passengerToggle.addEventListener('click', () => {
+passengerToggle.addEventListener('click', (e) => {
+  e.stopPropagation()
   setPassengerMenuOpen(!passengerField.classList.contains('is-open'))
 })
+
 passengerDone.addEventListener('click', () => {
   setPassengerMenuOpen(false)
   passengerToggle.focus()
 })
+
 document.addEventListener('click', (event) => {
   if (!passengerField.contains(event.target)) setPassengerMenuOpen(false)
 })
+
 document.addEventListener('keydown', (event) => {
   if (event.key === 'Escape' && passengerField.classList.contains('is-open')) {
     setPassengerMenuOpen(false)
@@ -514,6 +486,7 @@ document.addEventListener('keydown', (event) => {
 
 updatePassengerSummary()
 
+// 5. HIỂN THỊ VÀ LỌC DỮ LIỆU CHUYẾN BAY
 const formatCurrency = (value) => new Intl.NumberFormat('vi-VN', {
   style: 'currency',
   currency: 'VND',
@@ -604,7 +577,7 @@ const renderFlights = (flights) => {
         <dl>
           ${passengerCategories.map((category) => `
             <div>
-              <dt>${category.label}<small>${category.count} × ${formatCurrency(unitPrice)}</small></dt>
+              <dt>${category.label}<small>${category.count} ×${formatCurrency(unitPrice)}</small></dt>
               <dd>${formatCurrency(category.count * unitPrice)}</dd>
             </div>
           `).join('')}
@@ -623,7 +596,7 @@ const renderFlights = (flights) => {
       <strong>${routeFares[cabin] === undefined ? 'Chưa có giá mẫu' : formatCurrency(routeFares[cabin].gia)}</strong>
       <small>${routeFares[cabin] === undefined
         ? 'Chưa có dữ liệu cho tuyến và ngày này'
-        : `Chuyến ${routeFares[cabin].maChuyen} · ${routeFares[cabin].gioDi} · Giá mẫu / khách`}</small>
+        : `Chuyến ${routeFares[cabin].maChuyen} ·${routeFares[cabin].gioDi} · Giá mẫu / khách`}</small>
       ${routeFares[cabin] === undefined ? '' : `
         <div class="fare-total-row">
           <span>Tổng dự kiến · ${passengerCount} khách</span>
@@ -723,7 +696,7 @@ const applyFlightFilter = () => {
   renderFlights(filteredFlights)
 }
 
-// LẤY DỮ LIỆU TỪ DB.JSON (Tự động thích ứng đường dẫn Vite)
+// 6. TẢI DỮ LIỆU TỪ DB.JSON
 const loadDatabase = async () => {
   const paths = ['/public/data/db.json', '/data/db.json']
   for (const path of paths) {
@@ -745,7 +718,7 @@ const loadDatabase = async () => {
 
 loadDatabase()
 
-// 5. SỰ KIỆN SUBMIT TÌM CHUYẾN BAY
+// 7. SỰ KIỆN FORM VÀ SỰ KIỆN KHÁC
 document.querySelector('#flight-search-form').addEventListener('submit', (event) => {
   event.preventDefault()
 
@@ -769,7 +742,6 @@ document.querySelector('#flight-search-form').addEventListener('submit', (event)
     passengers: { adult, child, infant }
   }
 
-  // Lưu thông tin vào LocalStorage để các trang khác (như search.html) có thể truy cập
   localStorage.setItem('flightSearchParams', JSON.stringify(searchParams))
 
   const summaryReturn = tripType === 'Khứ hồi' ? `\nNgày về: ${returnDate}` : ''
@@ -785,16 +757,13 @@ if (cabinClass) {
   cabinClass.addEventListener('change', applyFlightFilter)
 }
 
-// NÚT KHUYẾN MÃI
 document.querySelector('#promotion-btn').addEventListener('click', () => {
   document.querySelector('#flight-search').scrollIntoView({
     behavior: 'smooth'
   })
 })
 
-// ====================================================
-// XỬ LÝ TRẠNG THÁI ĐĂNG NHẬP & ĐĂNG XUẤT (AUTH)
-// ====================================================
+// 8. XỬ LÝ TRẠNG THÁI ĐĂNG NHẬP & ĐĂNG XUẤT (AUTH)
 const checkAuthStatus = () => {
   const guestGroup = document.querySelector('#guestGroup')
   const userGroup = document.querySelector('#userGroup')
@@ -807,8 +776,6 @@ const checkAuthStatus = () => {
   if (token && userStr) {
     try {
       const user = JSON.parse(userStr)
-
-      // Nếu đã đăng nhập: Ẩn nút đăng nhập, hiện tên user và nút đăng xuất
       if (guestGroup) guestGroup.style.display = 'none'
       if (userGroup) userGroup.style.display = 'flex'
       if (userEmail) userEmail.textContent = user.name || user.email
@@ -816,23 +783,18 @@ const checkAuthStatus = () => {
       console.error('Lỗi đọc dữ liệu người dùng:', e)
     }
   } else {
-    // Nếu chưa đăng nhập
     if (guestGroup) guestGroup.style.display = 'flex'
     if (userGroup) userGroup.style.display = 'none'
   }
 
-  // Xử lý sự kiện bấm nút Đăng xuất
   if (logoutBtn) {
     logoutBtn.addEventListener('click', () => {
       localStorage.removeItem('token')
       localStorage.removeItem('user')
-
       alert('Bạn đã đăng xuất thành công!')
-      // Refresh lại trang để cập nhật giao diện
       window.location.reload()
     })
   }
 }
 
-// Gọi hàm kiểm tra ngay khi khởi chạy
 checkAuthStatus()
