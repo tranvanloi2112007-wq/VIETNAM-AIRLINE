@@ -1279,3 +1279,187 @@ input {
 .search-container .btn-search:hover {
     background-color: #003b71;
 }
+/* Custom CSS bổ sung cho Bộ chọn hành khách & Chuyến bay */
+
+.passenger-box {
+  position: relative;
+  user-select: none;
+}
+
+.passenger-summary {
+  width: 100%;
+  padding: 8px 12px;
+  background: #fff;
+  border: 1px solid #ccc;
+  border-radius: 4px;
+  font-size: 14px;
+  color: #333;
+}
+
+/* Menu Dropdown Chọn hành khách */
+.passenger-menu {
+  display: none;
+  position: absolute;
+  top: calc(100% + 5px);
+  left: 0;
+  width: 280px;
+  background: #ffffff;
+  border: 1px solid #e2e8f0;
+  border-radius: 8px;
+  box-shadow: 0 10px 25px rgba(0, 0, 0, 0.15);
+  padding: 12px 16px;
+  z-index: 100;
+}
+
+.passenger-menu.active {
+  display: block;
+}
+
+.passenger-row {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding: 10px 0;
+  border-bottom: 1px solid #f1f5f9;
+}
+
+.passenger-row:last-child {
+  border-bottom: none;
+}
+
+.passenger-row strong {
+  display: block;
+  font-size: 14px;
+  color: #1e293b;
+}
+
+.passenger-row small {
+  display: block;
+  font-size: 12px;
+  color: #64748b;
+}
+
+.counter-controls {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+}
+
+.counter-btn {
+  width: 30px;
+  height: 30px;
+  border-radius: 50%;
+  border: 1px solid #005f73;
+  background: #f8fafc;
+  color: #005f73;
+  font-size: 16px;
+  font-weight: bold;
+  cursor: pointer;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  transition: all 0.2s;
+}
+
+.counter-btn:hover {
+  background: #005f73;
+  color: #ffffff;
+}
+
+/* Style Kết quả Chuyến bay */
+.flight-results {
+  padding: 40px 20px;
+  background: #f8fafc;
+}
+
+.results-list {
+  display: flex;
+  flex-direction: column;
+  gap: 16px;
+  max-width: 900px;
+  margin: 20px auto 0;
+}
+
+.flight-card {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  background: #ffffff;
+  border-radius: 10px;
+  padding: 20px;
+  box-shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.1);
+  border: 1px solid #e2e8f0;
+}
+
+.flight-code {
+  font-weight: bold;
+  color: #005f73;
+  font-size: 16px;
+}
+
+.flight-cabin {
+  display: inline-block;
+  padding: 2px 8px;
+  background: #e0f2fe;
+  color: #0369a1;
+  border-radius: 12px;
+  font-size: 12px;
+  margin-left: 8px;
+}
+
+.flight-route {
+  display: flex;
+  align-items: center;
+  gap: 20px;
+  margin-top: 10px;
+}
+
+.route-point strong {
+  font-size: 18px;
+  color: #0f172a;
+}
+
+.route-point span {
+  display: block;
+  font-size: 13px;
+  color: #64748b;
+}
+
+.route-line {
+  text-align: center;
+  color: #94a3b8;
+  font-size: 12px;
+}
+
+.flight-side {
+  text-align: right;
+}
+
+.flight-price {
+  font-size: 20px;
+  font-weight: bold;
+  color: #d97706;
+  margin-bottom: 8px;
+}
+
+.flight-book-btn {
+  padding: 8px 20px;
+  background: #005f73;
+  color: #fff;
+  border: none;
+  border-radius: 6px;
+  cursor: pointer;
+  font-weight: bold;
+}
+
+.flight-book-btn:hover {
+  background: #0a9396;
+}
+
+.flight-empty {
+  text-align: center;
+  padding: 30px;
+  background: #ffffff;
+  border-radius: 8px;
+  color: #64748b;
+}
