@@ -1,33 +1,92 @@
-const form = document.querySelector("#registerForm");
+const API_URL = "http://localhost:9000";
 
-form.addEventListener("submit", function (e) {
-    e.preventDefault();
+document.getElementById("registerForm").addEventListener("submit", async (e) => {
+  e.preventDefault(); // Ngăn nộp form load lại trang
 
-    const name = document.querySelector("#name").value.trim();
-    const email = document.querySelector("#email").value.trim();
-    const password = document.querySelector("#password").value;
-    const confirmPassword = document.querySelector("#confirmPassword").value;
-    const message = document.querySelector("#message");
+  const nameInput = document.getElementById("name");
+  const emailInput = document.getElementById("email");
+  const passwordInput = document.getElementById("password");
+  const confirmPasswordInput = document.getElementById("confirmPassword");
+  const messageEl = document.getElementById("message");
 
-    if (!name || !email || !password || !confirmPassword) {
-        message.textContent = "Vui lòng nhập đầy đủ thông tin!";
-        return;
+  const name = nameInput.value.trim();
+  const email = emailInput.value.trim();
+  const password = passwordInput.value.trim();
+  const confirmPassword = confirmPasswordInput.value.trim();
+
+  // 1. KIỂM TRA DỮ LIỆU ĐẦU VÀO
+  if (!name) {
+    messageEl.style.color = "red";
+    messageEl.innerText = "Vui lòng nhập Họ và tên!";
+    nameInput.focus();
+    return;
+  }
+
+  if (!email) {
+    messageEl.style.color = "red";
+    messageEl.innerText = "Vui lòng nhập Email!";
+    emailInput.focus();
+    return;
+  }
+
+  if (!password) {
+    messageEl.style.color = "red";
+    messageEl.innerText = "Vui lòng nhập Mật khẩu!";
+    passwordInput.focus();
+    return;
+  }
+
+  if (!confirmPassword) {
+    messageEl.style.color = "red";
+    messageEl.innerText = "Vui lòng xác nhận lại Mật khẩu!";
+    confirmPasswordInput.focus();
+    return;
+  }
+
+  // Kiểm tra mật khẩu nhập lại có trùng khớp không
+  if (password !== confirmPassword) {
+    messageEl.style.color = "red";
+    messageEl.innerText = "Mật khẩu nhập lại không trùng khớp!";
+    confirmPasswordInput.focus();
+    return;
+  }
+
+  // 2. XỬ LÝ ĐĂNG KÝ VỚI API (JSON-SERVER-AUTH)
+  try {
+    messageEl.style.color = "blue";
+    messageEl.innerText = "Đang xử lý đăng ký...";
+
+    const response = await fetch(`${API_URL}/register`, {
+      method: "POST",
+      headers: {
+        "Content-Type": "application/json",
+      },
+      body: JSON.stringify({ name, email, password }),
+    });
+
+    const data = await response.json();
+
+    if (!response.ok) {
+      // Báo lỗi nếu email đã tồn tại hoặc dữ liệu không hợp lệ
+      messageEl.style.color = "red";
+      messageEl.innerText = typeof data === "string" ? data : "Đăng ký thất bại! Email có thể đã được sử dụng.";
+      return;
     }
 
-    if (password !== confirmPassword) {
-        message.textContent = "Mật khẩu nhập lại không đúng!";
-        return;
-    }
+    // 3. ĐĂNG KÝ THÀNH CÔNG
+    messageEl.style.color = "green";
+    messageEl.innerText = "Đăng ký thành công! Đang chuyển hướng đến trang đăng nhập...";
 
-    const user = {
-        name: name,
-        email: email,
-        password: password
-    };
+    alert("Đăng ký tài khoản thành công!");
 
-    localStorage.setItem("user", JSON.stringify(user));
+    // Chuyển hướng sang trang đăng nhập login.html (cùng nằm trong thư mục pages/)
+    setTimeout(() => {
+      window.location.href = "login.html";
+    }, 1000);
 
-    alert("Đăng ký thành công!");
-
-    window.location.href = "./login.html";
+  } catch (error) {
+    messageEl.style.color = "red";
+    messageEl.innerText = "Không thể kết nối tới máy chủ API! Bạn đã bật json-server chưa?";
+    console.error("Lỗi:", error);
+  }
 });

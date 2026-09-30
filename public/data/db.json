@@ -1,6 +1,21 @@
 {
+  "users": [
+    {
+      "email": "tranvanloi2112007@gmail.com",
+      "password": "$2a$10$AYAI1c/RfmvuwhBHKZ9/4OyqViSO42cvA.CE3qUIlIaiDwusiX662",
+      "name": "TRẦN VĂN LỢI",
+      "id": 1
+    },
+    {
+      "email": "thang1672002@gmail.com",
+      "password": "$2a$10$wSovaP12mYbj26co1uiU5u/kNYwYBqKrvLTRAnHZbfF/APioqMYb2",
+      "name": "khó chánh",
+      "id": 2
+    }
+  ],
   "flights": [
     {
+      "id": "1",
       "maChuyen": "VN101",
       "diemDi": "Hà Nội",
       "diemDen": "TP. Hồ Chí Minh",
@@ -11,6 +26,7 @@
       "hangGhe": "Phổ thông"
     },
     {
+      "id": "2",
       "maChuyen": "VN205",
       "diemDi": "Hà Nội",
       "diemDen": "Đà Nẵng",
@@ -21,6 +37,7 @@
       "hangGhe": "Phổ thông"
     },
     {
+      "id": "3",
       "maChuyen": "VN310",
       "diemDi": "TP. Hồ Chí Minh",
       "diemDen": "Nha Trang",
@@ -31,6 +48,7 @@
       "hangGhe": "Phổ thông"
     },
     {
+      "id": "4",
       "maChuyen": "VN420",
       "diemDi": "Đà Nẵng",
       "diemDen": "Hà Nội",
@@ -41,6 +59,7 @@
       "hangGhe": "Thương gia"
     },
     {
+      "id": "5",
       "maChuyen": "VN555",
       "diemDi": "Hà Nội",
       "diemDen": "TP. Hồ Chí Minh",
@@ -51,6 +70,7 @@
       "hangGhe": "Thương gia"
     },
     {
+      "id": "6",
       "maChuyen": "VN602",
       "diemDi": "TP. Hồ Chí Minh",
       "diemDen": "Hà Nội",
