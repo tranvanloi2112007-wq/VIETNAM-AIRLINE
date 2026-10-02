@@ -1,13 +1,127 @@
 <!doctype html>
-<html lang="en">
+<html lang="vi">
   <head>
     <meta charset="UTF-8" />
     <link rel="icon" type="image/svg+xml" href="/favicon.svg" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <title>VIETNAM AIRLINES</title>
+    <title>VIETNAM AIRLINES - Đặt vé máy bay</title>
+    <link rel="stylesheet" href="./style/style.css" />
   </head>
   <body>
-    <div id="app"></div>
-    <script type="module" src="/js/main.js"></script>
+    <div id="app">
+      <!-- Header -->
+      <header class="header">
+        <div class="logo">
+          <img src="./public/img/logo.png" alt="Vietnam Airlines Logo" />
+        </div>
+        <nav class="nav-links">
+          <a href="./index.html">Trang chủ</a>
+          <a href="./pages/login.html">Đăng nhập</a>
+          <a href="./pages/register.html">Đăng ký</a>
+        </nav>
+      </header>
+
+      <!-- Main Banner & Form Đặt Vé -->
+      <main class="main-content">
+        <div class="booking-container">
+          <h2>Tìm kiếm chuyến bay</h2>
+          
+          <form id="booking-form" class="search-form">
+            
+            <!-- Chuyến bay: Điểm đi / Điểm đến -->
+            <div class="form-row">
+              <div class="form-group">
+                <label for="from-location">Điểm đi:</label>
+                <select id="from-location" name="fromLocation" required>
+                  <option value="">-- Chọn điểm đi --</option>
+                  <option value="HAN">Hà Nội (HAN)</option>
+                  <option value="SGN">TP. Hồ Chí Minh (SGN)</option>
+                  <option value="DAD">Đà Nẵng (DAD)</option>
+                  <option value="CXR">Nha Trang (CXR)</option>
+                  <option value="PQC">Phú Quốc (PQC)</option>
+                </select>
+              </div>
+
+              <div class="form-group">
+                <label for="to-location">Điểm đến:</label>
+                <select id="to-location" name="toLocation" required>
+                  <option value="">-- Chọn điểm đến --</option>
+                  <option value="SGN">TP. Hồ Chí Minh (SGN)</option>
+                  <option value="HAN">Hà Nội (HAN)</option>
+                  <option value="DAD">Đà Nẵng (DAD)</option>
+                  <option value="CXR">Nha Trang (CXR)</option>
+                  <option value="PQC">Phú Quốc (PQC)</option>
+                </select>
+              </div>
+            </div>
+
+            <!-- Ngày bay & Hạng vé -->
+            <div class="form-row">
+              <div class="form-group">
+                <label for="departure-date">Ngày đi:</label>
+                <input type="date" id="departure-date" name="departureDate" required />
+              </div>
+
+              <div class="form-group">
+                <label for="ticket-class">Hạng vé:</label>
+                <select id="ticket-class" name="ticketClass" required>
+                  <option value="economy">Phổ thông (Economy)</option>
+                  <option value="premium-economy">Phổ thông đặc biệt</option>
+                  <option value="business">Thương gia (Business)</option>
+                </select>
+              </div>
+            </div>
+
+            <!-- Chọn số lượng hành khách -->
+            <div class="form-group passenger-selector">
+              <label>Số lượng hành khách:</label>
+              <div class="passenger-counts">
+                
+                <div class="passenger-item">
+                  <div class="passenger-info">
+                    <strong>Người lớn</strong>
+                    <small>(≥ 12 tuổi)</small>
+                  </div>
+                  <div class="counter">
+                    <button type="button" class="btn-qty" data-action="decrease" data-type="adults">-</button>
+                    <span id="adults-count">1</span>
+                    <button type="button" class="btn-qty" data-action="increase" data-type="adults">+</button>
+                  </div>
+                </div>
+
+                <div class="passenger-item">
+                  <div class="passenger-info">
+                    <strong>Trẻ em</strong>
+                    <small>(2 - 11 tuổi)</small>
+                  </div>
+                  <div class="counter">
+                    <button type="button" class="btn-qty" data-action="decrease" data-type="children">-</button>
+                    <span id="children-count">0</span>
+                    <button type="button" class="btn-qty" data-action="increase" data-type="children">+</button>
+                  </div>
+                </div>
+
+                <div class="passenger-item">
+                  <div class="passenger-info">
+                    <strong>Em bé</strong>
+                    <small>(&lt; 2 tuổi)</small>
+                  </div>
+                  <div class="counter">
+                    <button type="button" class="btn-qty" data-action="decrease" data-type="infants">-</button>
+                    <span id="infants-count">0</span>
+                    <button type="button" class="btn-qty" data-action="increase" data-type="infants">+</button>
+                  </div>
+                </div>
+
+              </div>
+            </div>
+
+            <button type="submit" class="btn-search">Tìm chuyến bay</button>
+          </form>
+        </div>
+      </main>
+    </div>
+
+    <script type="module" src="./js/main.js"></script>
   </body>
 </html>
