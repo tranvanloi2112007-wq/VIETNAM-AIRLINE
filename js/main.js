@@ -216,6 +216,26 @@ document.querySelector('#app').innerHTML = `
       </section>
 
       <div class="results-list" id="results-list"></div>
+
+      <dialog class="passenger-details-dialog" id="passenger-details-dialog" aria-labelledby="passenger-details-title">
+        <form class="passenger-details-panel" id="passenger-details-form">
+          <header class="passenger-details-header">
+            <div>
+              <p>THÔNG TIN ĐẶT CHỖ</p>
+              <h2 id="passenger-details-title">Thông tin hành khách</h2>
+              <span id="passenger-flight-summary"></span>
+            </div>
+            <button class="passenger-details-close" id="passenger-details-close" type="button" aria-label="Đóng form">×</button>
+          </header>
+          <p class="passenger-details-intro">Nhập thông tin riêng cho từng hành khách. Các trường có dấu <b>*</b> là bắt buộc.</p>
+          <div class="passenger-details-list" id="passenger-details-list"></div>
+          <p class="passenger-details-status" id="passenger-details-status" role="status"></p>
+          <footer class="passenger-details-actions">
+            <button class="passenger-details-cancel" id="passenger-details-cancel" type="button">Để sau</button>
+            <button class="passenger-details-submit" type="submit">Xem xác nhận đặt vé</button>
+          </footer>
+        </form>
+      </dialog>
     </div>
   </section>
 
@@ -673,11 +693,302 @@ const renderFlights = (flights) => {
 
       <div class="flight-side">
         <div class="flight-price">${formatCurrency(flight.gia)}</div>
-        <button class="flight-book-btn" type="button">Chọn</button>
+        <button class="flight-book-btn" type="button" data-flight-index="${allFlights.indexOf(flight)}">Chọn</button>
       </div>
     </article>
   `).join('')
 }
+
+const passengerDetailsDialog = document.querySelector('#passenger-details-dialog')
+const passengerDetailsForm = document.querySelector('#passenger-details-form')
+const passengerDetailsList = document.querySelector('#passenger-details-list')
+const passengerDetailsStatus = document.querySelector('#passenger-details-status')
+let selectedFlightForConfirmation = null
+
+const getFieldErrorMessage = (field) => {
+  const birthDateGroup = field.closest('.passenger-birth-date-selects')
+  if (birthDateGroup && Array.from(birthDateGroup.querySelectorAll('select')).some((part) => !part.value)) {
+    return 'Vui lòng chọn đầy đủ ngày, tháng và năm sinh.'
+  }
+  if (field.validity.valueMissing) return 'Vui lòng điền thông tin này.'
+  if (field.validity.customError || field.validity.typeMismatch || field.validity.patternMismatch) {
+    return field.validationMessage
+  }
+  if (field.validity.tooShort) return `Vui lòng nhập ít nhất ${field.minLength} ký tự.`
+  if (field.validity.rangeOverflow) return 'Ngày sinh không thể ở tương lai.'
+  return ''
+}
+
+const showFieldError = (field) => {
+  const errorElement = field.closest('.passenger-detail-field')?.querySelector('.field-error')
+  if (!errorElement) return
+
+  const message = getFieldErrorMessage(field)
+  errorElement.textContent = message
+  field.setAttribute('aria-invalid', String(Boolean(message)))
+}
+
+passengerDetailsForm.addEventListener('invalid', (event) => {
+  if (event.target instanceof HTMLInputElement || event.target instanceof HTMLSelectElement) {
+    showFieldError(event.target)
+  }
+}, true)
+
+const validateEmailField = (emailField) => {
+  const email = emailField.value.trim()
+  const isValidEmail = /^[^\s@]+@[^\s@]+\.[A-Za-z]{2,}$/.test(email)
+  emailField.setCustomValidity(!email || isValidEmail ? '' : 'Vui lòng nhập email hợp lệ, ví dụ name@example.com.')
+  showFieldError(emailField)
+}
+
+const validatePhoneField = (phoneField) => {
+  const enteredPhone = phoneField.value.trim().replace(/[\s().-]/g, '')
+  const localPhone = enteredPhone.startsWith('+84')
+    ? `0${enteredPhone.slice(3)}`
+    : enteredPhone.startsWith('84') ? `0${enteredPhone.slice(2)}` : enteredPhone
+  const isValidPhone = /^(?:03[2-9]|05[25689]|07[06-9]|08[1-9]|09[0-9])\d{7}$/.test(localPhone)
+  phoneField.setCustomValidity(!enteredPhone || isValidPhone
+    ? ''
+    : 'Vui lòng nhập số di động Việt Nam hợp lệ gồm 10 số (có thể dùng đầu +84).')
+  showFieldError(phoneField)
+}
+
+const renderPassengerFields = (flight) => {
+  const passengerGroups = [
+    { type: 'adult', label: 'Người lớn', count: Number(adultCount.textContent) },
+    { type: 'child', label: 'Trẻ em', count: Number(childCount.textContent) },
+    { type: 'infant', label: 'Em bé', count: Number(infantCount.textContent) }
+  ]
+  const today = new Date()
+  const currentYear = today.getFullYear()
+  const currentMonth = today.getMonth() + 1
+  const currentDay = today.getDate()
+  const monthOptions = Array.from({ length: 12 }, (_, index) => {
+    const month = String(index + 1).padStart(2, '0')
+    return `<option value="${month}">Tháng ${index + 1}</option>`
+  }).join('')
+  const yearOptions = Array.from({ length: currentYear - 1899 }, (_, index) => {
+    const year = currentYear - index
+    return `<option value="${year}">${year}</option>`
+  }).join('')
+  const flightDate = new Intl.DateTimeFormat('vi-VN', {
+    day: '2-digit',
+    month: '2-digit',
+    year: 'numeric'
+  }).format(new Date(`${flight.ngay}T12:00:00`))
+
+  document.querySelector('#passenger-flight-summary').textContent = `${flight.maChuyen} · ${flight.diemDi} → ${flight.diemDen} · ${flightDate} · ${flight.hangGhe}`
+  passengerDetailsStatus.textContent = ''
+  passengerDetailsList.innerHTML = passengerGroups.map((group) => Array.from({ length: group.count }, (_, index) => {
+    const passengerNumber = index + 1
+    const fieldId = `${group.type}-${passengerNumber}`
+
+    return `
+      <fieldset class="passenger-detail-card">
+        <legend>${group.label} ${passengerNumber}</legend>
+        <div class="passenger-detail-grid">
+          <div class="passenger-detail-field passenger-detail-full-width">
+            <label for="${fieldId}-name">Họ và tên</label>
+            <input id="${fieldId}-name" name="${fieldId}-name" type="text" autocomplete="name" minlength="2" maxlength="100" placeholder="Nhập họ tên như trên giấy tờ" aria-describedby="${fieldId}-name-error" required>
+            <small class="field-error" id="${fieldId}-name-error" aria-live="polite"></small>
+          </div>
+          <div class="passenger-detail-field">
+            <label for="${fieldId}-gender">Giới tính</label>
+            <select id="${fieldId}-gender" name="${fieldId}-gender" required>
+              <option value="">Chọn giới tính</option>
+              <option value="Nam">Nam</option>
+              <option value="Nữ">Nữ</option>
+              <option value="Khác">Khác</option>
+            </select>
+            <small class="field-error" id="${fieldId}-gender-error" aria-live="polite"></small>
+          </div>
+          <div class="passenger-detail-field">
+            <label for="${fieldId}-email">Email <b aria-hidden="true">*</b></label>
+            <input id="${fieldId}-email" name="${fieldId}-email" type="email" autocomplete="email" maxlength="254" placeholder="tenban@email.com" aria-describedby="${fieldId}-email-error" required>
+            <small class="field-error" id="${fieldId}-email-error" aria-live="polite"></small>
+          </div>
+          <div class="passenger-detail-field">
+            <label for="${fieldId}-phone">Số điện thoại <b aria-hidden="true">*</b></label>
+            <input id="${fieldId}-phone" name="${fieldId}-phone" type="tel" autocomplete="tel" maxlength="20" placeholder="0912 345 678 hoặc +84912 345 678" aria-describedby="${fieldId}-phone-error" required>
+            <small class="passenger-field-help">Số di động Việt Nam, có thể dùng đầu số +84.</small>
+            <small class="field-error" id="${fieldId}-phone-error" aria-live="polite"></small>
+          </div>
+          <div class="passenger-detail-field">
+            <label for="${fieldId}-birth-day">Ngày sinh</label>
+            <div class="passenger-birth-date-selects" aria-describedby="${fieldId}-birth-error">
+              <select id="${fieldId}-birth-day" name="${fieldId}-birth-day" data-birth-date-part="day" aria-label="Ngày sinh - ngày" required>
+                <option value="">Ngày</option>
+                ${Array.from({ length: 31 }, (_, index) => `<option value="${String(index + 1).padStart(2, '0')}">${index + 1}</option>`).join('')}
+              </select>
+              <select id="${fieldId}-birth-month" name="${fieldId}-birth-month" data-birth-date-part="month" aria-label="Ngày sinh - tháng" required>
+                <option value="">Tháng</option>
+                ${monthOptions}
+              </select>
+              <select id="${fieldId}-birth-year" name="${fieldId}-birth-year" data-birth-date-part="year" aria-label="Ngày sinh - năm" required>
+                <option value="">Năm</option>
+                ${yearOptions}
+              </select>
+            </div>
+            <small class="field-error" id="${fieldId}-birth-error" aria-live="polite"></small>
+          </div>
+          <div class="passenger-detail-field">
+            <label for="${fieldId}-document-type">Loại giấy tờ</label>
+            <select id="${fieldId}-document-type" name="${fieldId}-document-type" required>
+              <option value="">Chọn loại giấy tờ</option>
+              <option value="CCCD">CCCD</option>
+              <option value="Hộ chiếu">Hộ chiếu</option>
+            </select>
+            <small class="field-error" id="${fieldId}-document-type-error" aria-live="polite"></small>
+          </div>
+          <div class="passenger-detail-field">
+            <label for="${fieldId}-document-number">Số CCCD / Hộ chiếu</label>
+            <input id="${fieldId}-document-number" name="${fieldId}-document-number" type="text" autocomplete="off" maxlength="20" placeholder="Nhập số giấy tờ" aria-describedby="${fieldId}-document-number-error" required>
+            <small class="field-error" id="${fieldId}-document-number-error" aria-live="polite"></small>
+          </div>
+        </div>
+      </fieldset>
+    `
+  }).join('')).join('')
+
+  passengerDetailsList.querySelectorAll('.passenger-detail-card').forEach((card) => {
+    const nameField = card.querySelector('[name$="-name"]')
+    const birthDayField = card.querySelector('[data-birth-date-part="day"]')
+    const birthMonthField = card.querySelector('[data-birth-date-part="month"]')
+    const birthYearField = card.querySelector('[data-birth-date-part="year"]')
+    const documentTypeField = card.querySelector('[name$="-document-type"]')
+    const documentNumberField = card.querySelector('[name$="-document-number"]')
+    const genderField = card.querySelector('[name$="-gender"]')
+    const emailField = card.querySelector('[name$="-email"]')
+    const phoneField = card.querySelector('[name$="-phone"]')
+    const birthDateError = birthDayField.closest('.passenger-detail-field').querySelector('.field-error')
+    const birthDateFields = [birthDayField, birthMonthField, birthYearField]
+
+    const refreshBirthDateError = () => {
+      if (!birthDateError.textContent) return
+      const isComplete = birthDateFields.every((field) => field.value)
+      birthDateError.textContent = isComplete ? '' : 'Vui lòng chọn đầy đủ ngày, tháng và năm sinh.'
+      birthDateFields.forEach((field) => field.setAttribute('aria-invalid', String(!isComplete)))
+    }
+
+    const updateBirthDays = () => {
+      const selectedYear = Number(birthYearField.value)
+      const selectedMonth = Number(birthMonthField.value)
+      const previousDay = Number(birthDayField.value)
+      const monthOptions = Array.from(birthMonthField.options)
+
+      monthOptions.forEach((option) => {
+        option.disabled = selectedYear === currentYear && Number(option.value) > currentMonth
+      })
+
+      if (selectedYear === currentYear && selectedMonth > currentMonth) {
+        birthMonthField.value = ''
+      }
+
+      const month = Number(birthMonthField.value)
+      let dayLimit = selectedYear && month ? new Date(selectedYear, month, 0).getDate() : 31
+      if (selectedYear === currentYear && month === currentMonth) {
+        dayLimit = Math.min(dayLimit, currentDay)
+      }
+
+      birthDayField.innerHTML = `<option value="">Ngày</option>${Array.from({ length: dayLimit }, (_, index) => {
+        const day = String(index + 1).padStart(2, '0')
+        return `<option value="${day}">${index + 1}</option>`
+      }).join('')}`
+
+      if (previousDay > 0 && previousDay <= dayLimit) {
+        birthDayField.value = String(previousDay).padStart(2, '0')
+      }
+
+      refreshBirthDateError()
+    }
+
+    birthMonthField.addEventListener('change', updateBirthDays)
+    birthYearField.addEventListener('change', updateBirthDays)
+    birthDayField.addEventListener('change', refreshBirthDateError)
+    updateBirthDays()
+
+    nameField.addEventListener('input', () => {
+      const name = nameField.value.trim()
+      nameField.setCustomValidity(!name
+        ? 'Vui lòng nhập họ và tên.'
+        : name.length < 2 ? 'Họ và tên cần có ít nhất 2 ký tự.' : '')
+      showFieldError(nameField)
+    })
+
+    const validateDocumentNumber = () => {
+      const documentNumber = documentNumberField.value.trim()
+      if (!documentNumber) {
+        documentNumberField.setCustomValidity('Vui lòng nhập số giấy tờ.')
+      } else if (documentTypeField.value === 'CCCD' && !/^(\d{9}|\d{12})$/.test(documentNumber)) {
+        documentNumberField.setCustomValidity('Số CCCD phải gồm 9 hoặc 12 chữ số.')
+      } else if (documentTypeField.value === 'Hộ chiếu' && !/^[A-Za-z0-9]{6,20}$/.test(documentNumber)) {
+        documentNumberField.setCustomValidity('Số hộ chiếu phải gồm 6-20 ký tự chữ hoặc số.')
+      } else {
+        documentNumberField.setCustomValidity('')
+      }
+      showFieldError(documentNumberField)
+    }
+
+    genderField.addEventListener('change', () => showFieldError(genderField))
+    emailField.addEventListener('input', () => validateEmailField(emailField))
+    phoneField.addEventListener('input', () => validatePhoneField(phoneField))
+    documentTypeField.addEventListener('change', () => {
+      showFieldError(documentTypeField)
+      validateDocumentNumber()
+    })
+    documentNumberField.addEventListener('input', validateDocumentNumber)
+  })
+
+  passengerDetailsDialog.showModal()
+}
+
+document.querySelector('#results-list').addEventListener('click', (event) => {
+  const chooseButton = event.target.closest('[data-flight-index]')
+  if (!chooseButton) return
+
+  const flight = allFlights[Number(chooseButton.dataset.flightIndex)]
+  if (flight) {
+    selectedFlightForConfirmation = flight
+    renderPassengerFields(flight)
+  }
+})
+
+document.querySelector('#passenger-details-close').addEventListener('click', () => passengerDetailsDialog.close())
+document.querySelector('#passenger-details-cancel').addEventListener('click', () => passengerDetailsDialog.close())
+passengerDetailsDialog.addEventListener('click', (event) => {
+  if (event.target === passengerDetailsDialog) passengerDetailsDialog.close()
+})
+passengerDetailsForm.addEventListener('submit', (event) => {
+  event.preventDefault()
+  if (!selectedFlightForConfirmation || !passengerDetailsForm.reportValidity()) return
+
+  const passengers = Array.from(passengerDetailsList.querySelectorAll('.passenger-detail-card')).map((card) => {
+    const getValue = (suffix) => card.querySelector(`[name$="-${suffix}"]`)?.value.trim() || ''
+    const birthDay = card.querySelector('[data-birth-date-part="day"]').value
+    const birthMonth = card.querySelector('[data-birth-date-part="month"]').value
+    const birthYear = card.querySelector('[data-birth-date-part="year"]').value
+
+    return {
+      name: getValue('name'),
+      gender: getValue('gender'),
+      birthDate: `${birthYear}-${birthMonth}-${birthDay}`,
+      email: getValue('email'),
+      phone: getValue('phone'),
+      documentType: getValue('document-type'),
+      documentNumber: getValue('document-number')
+    }
+  })
+
+  const confirmation = {
+    flight: selectedFlightForConfirmation,
+    tripType: tripRound.checked ? 'Khứ hồi' : 'Một chiều',
+    returnDate: tripRound.checked ? formatDateValue('return') : '',
+    passengers
+  }
+
+  sessionStorage.setItem('bookingConfirmation', JSON.stringify(confirmation))
+  window.location.href = '/pages/booking-confirmation.html'
+})
 
 const applyFlightFilter = () => {
   const from = getCityNameFromSelect(fromCity)
