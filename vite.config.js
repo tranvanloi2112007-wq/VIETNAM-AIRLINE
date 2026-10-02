@@ -7,7 +7,8 @@ export default defineConfig({
       input: {
         main: resolve(import.meta.dirname, 'index.html'),
         login: resolve(import.meta.dirname, 'pages/login.html'),
-        register: resolve(import.meta.dirname, 'pages/register.html')
+        register: resolve(import.meta.dirname, 'pages/register.html'),
+        bookingConfirmation: resolve(import.meta.dirname, 'pages/booking-confirmation.html')
       }
     }
   }
