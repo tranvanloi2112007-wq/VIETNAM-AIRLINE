@@ -70,9 +70,10 @@ if (!storedConfirmation) {
       </main>
     `
   } else {
-    const { flight, passengers, tripType, returnDate } = confirmation
+    const { flight, passengers, tripType, returnDate, extraBaggage } = confirmation // ← MỚI: thêm extraBaggage
     const passengerTotal = passengers.length
-    const estimatedTotal = Number(flight.gia) * passengerTotal
+    const extraBaggageFee = Number(extraBaggage?.fee) || 0 // ← MỚI
+    const estimatedTotal = (Number(flight.gia) + extraBaggageFee) * passengerTotal // ← MỚI: cộng phí hành lý
     const departureDate = formatDate(flight.ngay, { weekday: 'long' })
     const flightDuration = (() => {
       const [departureHour, departureMinute] = flight.gioDi.split(':').map(Number)
@@ -157,6 +158,7 @@ if (!storedConfirmation) {
               ${tripType === 'Khứ hồi' ? `<div><dt>Ngày về</dt><dd>${escapeHtml(formatDate(returnDate, { weekday: 'long' }))}</dd></div>` : ''}
               <div><dt>Số hành khách</dt><dd>${passengerTotal} người</dd></div>
               <div><dt>Giá tham khảo / khách</dt><dd>${formatCurrency(Number(flight.gia))}</dd></div>
+              ${extraBaggageFee ? `<div><dt>Hành lý mua thêm / khách</dt><dd>${escapeHtml(extraBaggage.label)} · ${formatCurrency(extraBaggageFee)}</dd></div>` : ''}
               <div class="confirmation-total"><dt>Tổng dự kiến</dt><dd>${formatCurrency(estimatedTotal)}</dd></div>
             </dl>
             <p class="confirmation-price-note">Tạm tính theo cùng giá mẫu cho mỗi khách; chưa áp dụng giá riêng theo độ tuổi, thuế hoặc phí.</p>
@@ -181,16 +183,15 @@ if (!storedConfirmation) {
       </main>
     `
 
-    // CODE MỚI CẬP NHẬT:
-const confirmButton = document.querySelector('#confirmation-confirm')
-confirmButton.addEventListener('click', () => {
-  confirmButton.disabled = true
-  
-  // 1. Lưu cờ/thông báo thành công vào sessionStorage để hiển thị ở trang chủ
-  sessionStorage.setItem('bookingSuccessMessage', 'Đặt vé thành công! Cảm ơn bạn đã lựa chọn dịch vụ của chúng tôi.')
+    const confirmButton = document.querySelector('#confirmation-confirm')
+    confirmButton.addEventListener('click', () => {
+      confirmButton.disabled = true
 
-  // 2. Chuyển hướng về trang chủ
-  window.location.href = '/index.html'
-})
+      // 1. Lưu thông báo thành công vào sessionStorage để hiển thị ở trang chủ
+      sessionStorage.setItem('bookingSuccessMessage', 'Đặt vé thành công! Cảm ơn bạn đã lựa chọn dịch vụ của chúng tôi.')
+
+      // 2. Chuyển hướng về trang chủ
+      window.location.href = '/index.html'
+    })
   }
 }

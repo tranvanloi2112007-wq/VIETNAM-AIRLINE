@@ -116,3 +116,7 @@ p a:hover {
     font-size: 13px;
     min-height: 18px;
 }
+#ve a{
+    text-align: center;
+    color: brown;
+}
