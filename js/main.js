@@ -373,7 +373,7 @@ document.querySelector('#app').innerHTML = `
     </div>
 
     <div class="footer-bottom">
-      <p>© 2026 Vietnam Airlines. Demo project phục vụ mục đích học tập.</p>
+      <p>© 2026 Vietnam Airlines. </p>
     </div>
   </footer>
 `
@@ -1107,5 +1107,17 @@ const checkAuthStatus = () => {
     })
   }
 }
+
+document.addEventListener('DOMContentLoaded', () => {
+  const successMessage = sessionStorage.getItem('bookingSuccessMessage')
+  
+  if (successMessage) {
+    // Hiển thị thông báo (Dùng alert đơn giản hoặc tạo UI thông báo đẹp mắt)
+    alert(successMessage)
+
+    // Xóa thông báo sau khi đã hiển thị để không lặp lại khi refresh trang
+    sessionStorage.removeItem('bookingSuccessMessage')
+  }
+})
 
 checkAuthStatus()

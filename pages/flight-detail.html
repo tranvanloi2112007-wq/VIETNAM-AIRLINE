@@ -1,0 +1,123 @@
+<!DOCTYPE html>
+<html lang="vi">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Chi tiết chuyến bay</title>
+  <link rel="stylesheet" href="../style/style.css">
+  <link rel="stylesheet" href="../style/flight-detail.css">
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+</head>
+<body>
+
+  <!-- Header -->
+  <header class="header">
+    <div class="container header-container">
+      <a href="../index.html" class="logo">
+        <img src="../public/img/logo.png" alt="Logo">
+      </a>
+      <nav class="nav">
+        <a href="../index.html">Trang chủ</a>
+        <a href="search.html">Tìm chuyến bay</a>
+        <a href="login.html">Đăng nhập</a>
+      </nav>
+    </div>
+  </header>
+
+  <!-- Main Content -->
+  <main class="container detail-container">
+    <div class="navigation-back">
+      <a href="search.html" class="btn-back"><i class="fa-solid fa-arrow-left"></i> Quay lại tìm kiếm</a>
+    </div>
+
+    <div class="flight-card">
+      <!-- Flight Header -->
+      <div class="flight-header">
+        <div class="airline-info">
+          <div class="airline-logo" id="airlineLogo">VN</div>
+          <div>
+            <h2 id="airlineName">Đang tải...</h2>
+            <p id="flightNumberAndPlane">--</p>
+          </div>
+        </div>
+        <div class="flight-badge" id="flightType">Bay thẳng</div>
+      </div>
+
+      <!-- Flight Timeline -->
+      <div class="timeline">
+        <div class="timeline-item">
+          <div class="timeline-dot"></div>
+          <div class="timeline-content">
+            <span class="time" id="depTime">--:--</span>
+            <span class="date" id="depDate">--/--/----</span>
+            <h3 id="depAirport">--</h3>
+            <p id="depTerminal">--</p>
+          </div>
+        </div>
+
+        <div class="timeline-duration">
+          <i class="fa-solid fa-clock"></i>
+          <span>Thời gian bay: <strong id="flightDuration">--</strong></span>
+        </div>
+
+        <div class="timeline-item">
+          <div class="timeline-dot"></div>
+          <div class="timeline-content">
+            <span class="time" id="arrTime">--:--</span>
+            <span class="date" id="arrDate">--/--/----</span>
+            <h3 id="arrAirport">--</h3>
+            <p id="arrTerminal">--</p>
+          </div>
+        </div>
+      </div>
+
+      <!-- Services & Facilities -->
+      <div class="services-grid">
+        <div class="service-item">
+          <i class="fa-solid fa-briefcase"></i>
+          <div>
+            <span>Hành lý xách tay</span>
+            <strong id="cabinBaggage">10 kg</strong>
+          </div>
+        </div>
+        <div class="service-item">
+          <i class="fa-solid fa-suitcase-rolling"></i>
+          <div>
+            <span>Hành lý ký gửi</span>
+            <strong id="checkedBaggage">23 kg</strong>
+          </div>
+        </div>
+        <div class="service-item">
+          <i class="fa-solid fa-utensils"></i>
+          <div>
+            <span>Suất ăn</span>
+            <strong>Có sẵn</strong>
+          </div>
+        </div>
+      </div>
+
+      <!-- Baggage Option -->
+      <div class="extra-options">
+        <label for="extraBaggage">Mua thêm hành lý ký gửi:</label>
+        <select id="extraBaggage">
+          <option value="0">Không mua thêm (0 VNĐ)</option>
+          <option value="200000">+ 10kg (+200.000 VNĐ)</option>
+          <option value="350000">+ 20kg (+350.000 VNĐ)</option>
+          <option value="500000">+ 30kg (+500.000 VNĐ)</option>
+        </select>
+      </div>
+    </div>
+
+    <!-- Pricing Summary Footer -->
+    <div class="booking-summary-bar">
+      <div class="price-info">
+        <span>Tổng chi phí thanh toán</span>
+        <h3 id="totalPrice">0 VNĐ</h3>
+      </div>
+      <button id="btnContinue" class="btn-primary">Tiếp tục đặt vé <i class="fa-solid fa-arrow-right"></i></button>
+    </div>
+  </main>
+
+  <script src="../js/flight-detail.js"></script>
+</body>
+</html>

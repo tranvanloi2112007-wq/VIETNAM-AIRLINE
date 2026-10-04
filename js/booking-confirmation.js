@@ -1,4 +1,4 @@
-import '../style/style.css'
+import '../style/booking-confirmation.css'
 
 const app = document.querySelector('#booking-confirmation-app')
 const storedConfirmation = sessionStorage.getItem('bookingConfirmation')
@@ -181,11 +181,16 @@ if (!storedConfirmation) {
       </main>
     `
 
-    const confirmButton = document.querySelector('#confirmation-confirm')
-    confirmButton.addEventListener('click', () => {
-      confirmButton.disabled = true
-      confirmButton.textContent = 'Đã xác nhận thông tin'
-      document.querySelector('#confirmation-final-status').textContent = 'Thông tin đã được xác nhận trên trang. Hệ thống chưa tạo mã đặt chỗ, chưa thanh toán và chưa phát hành vé.'
-    })
+    // CODE MỚI CẬP NHẬT:
+const confirmButton = document.querySelector('#confirmation-confirm')
+confirmButton.addEventListener('click', () => {
+  confirmButton.disabled = true
+  
+  // 1. Lưu cờ/thông báo thành công vào sessionStorage để hiển thị ở trang chủ
+  sessionStorage.setItem('bookingSuccessMessage', 'Đặt vé thành công! Cảm ơn bạn đã lựa chọn dịch vụ của chúng tôi.')
+
+  // 2. Chuyển hướng về trang chủ
+  window.location.href = '/index.html'
+})
   }
 }
