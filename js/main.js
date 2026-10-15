@@ -1,47 +1,9 @@
-import '../style/style.css'
-
-import { renderApp } from './templates/index.js'
-import { initDom } from './dom.js'
-import { state } from './state.js'
-import { fetchFlights } from './services/flightService.js'
-
-import { initTripType } from './features/tripType.js'
-import { initPassengers } from './features/passengers.js'
-import { initPassengerDetails } from './features/passengerDetails/index.js'
-import { initSearchForm } from './features/searchForm.js'
-import { initPromotion } from './features/promotion.js'
-import { initAuth } from './features/auth.js'
-import { initBookingMessage } from './features/bookingMessage.js'
-import { applyFlightFilter } from './features/flightFilter.js'
-import { showLoadError } from './features/flightRenderer.js'
-import { restorePendingBooking } from './features/pendingBooking.js'
-
-// 1. Render giao diện, sau đó mới lấy DOM
-renderApp()
-initDom()
-
-// 2. Khởi tạo các tính năng
-initTripType()
-initPassengers()
-initPassengerDetails()
-initSearchForm()
-initPromotion()
-initBookingMessage()
-initAuth()
-
-// 3. Tải dữ liệu chuyến bay
-const loadDatabase = async () => {
-  const flights = await fetchFlights()
-
-  if (flights) {
-    state.allFlights = flights
-    applyFlightFilter()
-      restorePendingBooking()
-  } else {
-    showLoadError()
-  }
+function renderChrome() {
+    const u = Auth.user(), p = ROOT + 'pages/';
+    $('#hdr').innerHTML = `<div class="nav wrap"><a class="logo" href="${ROOT}index.html">✈ VIETNAM<br>AIRLINES</a><button id="burger" aria-label="Menu">☰</button><nav id="menu">
+ <a href="${ROOT}index.html">Trang chủ</a><a href="${p}search.html">Tìm chuyến bay</a><a href="${p}ticket.html">Tra cứu vé</a><a href="${ROOT}index.html#contact">Liên hệ</a>${u && u.role === 'admin' ? `<a href="${p}admin.html">Quản trị</a>` : ''}
+ ${u ? `<span class="hi">Xin chào, ${esc(u.name)}</span><a href="#" id="lo" class="btn sm">Đăng xuất</a>` : `<a href="${p}login.html" class="btn sm">Đăng nhập</a><a href="${p}register.html" class="btn sm ghost">Đăng ký</a>`}</nav></div>`;
+    $('#burger').onclick = () => $('#menu').classList.toggle('open'); if ($('#lo')) $('#lo').onclick = e => { e.preventDefault(); Auth.logout() };
+    $('#ftr').innerHTML = `<div class="wrap"><div><b style="color:#fff">✈ VIETNAM AIRLINES</b><br>Đồng hành cùng bạn trên mọi chuyến bay.</div><div><b style="color:#fff">Đặt vé</b><a href="${p}search.html">Tìm chuyến bay</a><a href="${p}ticket.html">Tra cứu vé</a></div><div><b style="color:#fff">Tài khoản</b><a href="${p}login.html">Đăng nhập</a><a href="${p}register.html">Đăng ký</a></div><div>© 2026 Vietnam Airlines (demo)</div></div>`
 }
-
-
-
-loadDatabase()
+(async () => { loading(true); await Api.init(); loading(false); renderChrome(); const f = Pages[document.body.dataset.page]; if (f) f() })();

@@ -1,0 +1,83 @@
+{
+ "users": [
+  {
+   "id": "u0",
+   "name": "Quản trị viên",
+   "email": "admin@vna.vn",
+   "pass": "admin123",
+   "role": "admin"
+  },
+  {
+   "id": "u1",
+   "name": "Nguyễn Văn A",
+   "email": "user@vna.vn",
+   "pass": "123456",
+   "role": "user"
+  }
+ ],
+ "airports": {
+  "SGN": "TP. Hồ Chí Minh",
+  "HAN": "Hà Nội",
+  "DAD": "Đà Nẵng",
+  "PQC": "Phú Quốc",
+  "CXR": "Nha Trang",
+  "HUI": "Huế"
+ },
+ "routes": [
+  [
+   "SGN",
+   "HAN",
+   130,
+   1450000
+  ],
+  [
+   "SGN",
+   "DAD",
+   80,
+   1250000
+  ],
+  [
+   "HAN",
+   "DAD",
+   80,
+   1150000
+  ],
+  [
+   "SGN",
+   "PQC",
+   60,
+   990000
+  ],
+  [
+   "HAN",
+   "PQC",
+   130,
+   1650000
+  ],
+  [
+   "SGN",
+   "CXR",
+   65,
+   890000
+  ],
+  [
+   "HAN",
+   "CXR",
+   120,
+   1550000
+  ],
+  [
+   "HAN",
+   "HUI",
+   75,
+   1050000
+  ]
+ ],
+ "slots": [
+  "06:15",
+  "10:30",
+  "15:00",
+  "19:20"
+ ],
+ "days": 7
+}

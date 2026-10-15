@@ -1,54 +1,40 @@
 <!DOCTYPE html>
 <html lang="vi">
+
 <head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Tìm kiếm chuyến bay - Vietnam Airline</title>
-    <!-- Trỏ đường dẫn tương đối ra thư mục style ở gốc -->
-    <link rel="stylesheet" href="../style/style.css">
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width,initial-scale=1">
+    <title>Tìm chuyến bay - Vietnam Airlines</title>
+    <link rel="stylesheet" href="../css/style.css">
 </head>
-<body>
 
-    <div class="search-container">
-        <h2>TÌM KIẾM CHUYẾN BAY</h2>
-        <form id="flightSearchForm">
-            <div class="form-group">
-                <label for="departure">Điểm đi:</label>
-                <select id="departure" name="departure" required>
-                    <option value="">-- Chọn điểm đi --</option>
-                    <option value="HAN">Hà Nội (HAN)</option>
-                    <option value="SGN">TP. Hồ Chí Minh (SGN)</option>
-                    <option value="DAD">Đà Nẵng (DAD)</option>
-                    <option value="CXR">Nha Trang (CXR)</option>
-                </select>
-            </div>
-
-            <div class="form-group">
-                <label for="destination">Điểm đến:</label>
-                <select id="destination" name="destination" required>
-                    <option value="">-- Chọn điểm đến --</option>
-                    <option value="HAN">Hà Nội (HAN)</option>
-                    <option value="SGN">TP. Hồ Chí Minh (SGN)</option>
-                    <option value="DAD">Đà Nẵng (DAD)</option>
-                    <option value="CXR">Nha Trang (CXR)</option>
-                </select>
-            </div>
-
-            <div class="form-group">
-                <label for="departureDate">Ngày đi:</label>
-                <input type="date" id="departureDate" name="departureDate" required>
-            </div>
-
-            <div class="form-group">
-                <label for="passengers">Số hành khách:</label>
-                <input type="number" id="passengers" name="passengers" min="1" max="10" value="1" required>
-            </div>
-
-            <button type="submit" class="btn-search">Tìm chuyến bay</button>
+<body data-page="search" data-root="../">
+    <header id="hdr"></header>
+    <main class="wrap">
+        <h2 id="stitle">Tìm chuyến bay</h2>
+        <form id="ff" class="card filter" onsubmit="return false"><label>Điểm đi<select
+                    name="from"></select></label><label>Điểm đến<select name="to"></select></label><label>Ngày khởi
+                hành<input type="date" name="date"></label>
+            <label>Giá tối đa: <span id="maxv"></span><input type="range" name="max" min="500000" max="5000000"
+                    step="100000" value="5000000"></label>
+            <label>Sắp xếp<select name="sort">
+                    <option value="">Giờ bay</option>
+                    <option value="asc">Giá tăng dần</option>
+                    <option value="desc">Giá giảm dần</option>
+                </select></label>
         </form>
-    </div>
-
-    <!-- Nhúng file JS bằng Type Module (chuẩn Vite) -->
-    <script type="module" src="../js/search.js"></script>
+        <div id="res"></div>
+    </main>
+    <footer id="ftr"></footer>
+    <script src="../js/utils.js"></script>
+    <script src="../js/api.js"></script>
+    <script src="../js/cart.js"></script>
+    <script src="../js/auth.js"></script>
+    <script src="../js/product.js"></script>
+    <script src="../js/booking.js"></script>
+    <script src="../js/admin.js"></script>
+    <script src="../js/contact.js"></script>
+    <script src="../js/main.js"></script>
 </body>
+
 </html>
