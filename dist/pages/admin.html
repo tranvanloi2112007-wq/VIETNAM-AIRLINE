@@ -1,0 +1,147 @@
+<!DOCTYPE html>
+<html lang="vi">
+
+<head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width,initial-scale=1">
+    <title>Quản trị - Vietnam Airlines</title>
+  <link rel="stylesheet" crossorigin href="/assets/style-B4ZR7oau.css">
+</head>
+
+<body data-page="admin" data-root="../">
+    <header id="hdr"></header>
+    <main class="wrap">
+        <div class="row">
+            <h2>Trang quản trị</h2><button class="btn ghost sm" id="rs">Khôi phục dữ liệu mẫu</button>
+        </div>
+        <div class="tabs"><button class="on" data-t="s">Thống kê</button><button data-t="b">Đơn đặt vé</button><button
+                data-t="f">Chuyến bay</button><button data-t="c">Liên hệ khách hàng <span
+                    id="nc"></span></button><button data-t="a">Tài khoản</button></div>
+        <section id="ps">
+            <div class="kpis" id="kp"></div><label style="max-width:220px;margin-top:16px">Khoảng thời gian<select
+                    id="rg">
+                    <option value="7">7 ngày gần nhất</option>
+                    <option value="14" selected>14 ngày gần nhất</option>
+                    <option value="30">30 ngày gần nhất</option>
+                </select></label>
+            <div class="charts">
+                <div class="card">
+                    <h3>Doanh thu theo ngày</h3>
+                    <div id="chr"></div>
+                </div>
+                <div class="card">
+                    <h3>Vé theo hạng (TG / PT)</h3>
+                    <div id="chc"></div>
+                </div>
+            </div>
+        </section>
+        <section id="pb" hidden><label>Tìm theo mã đặt chỗ hoặc tên hành khách<input id="qb"
+                    placeholder="Nhập từ khóa..."></label>
+            <div class="tbl" style="margin-top:12px">
+                <table>
+                    <tr>
+                        <th>PNR</th>
+                        <th>Tài khoản</th>
+                        <th>Chuyến bay</th>
+                        <th>Hành khách</th>
+                        <th>Tổng tiền</th>
+                        <th>Trạng thái</th>
+                        <th></th>
+                    </tr>
+                    <tbody id="tb"></tbody>
+                </table>
+            </div>
+        </section>
+        <section id="pf" hidden>
+            <div class="row" style="align-items:end"><label style="flex:1">Tìm chuyến bay (mã, sân bay, ngày)<input
+                        id="qf"></label><button class="btn" id="addf">+ Thêm chuyến bay</button></div><small
+                id="ct"></small>
+            <div class="tbl">
+                <table>
+                    <tr>
+                        <th>Mã</th>
+                        <th>Hành trình</th>
+                        <th>Ngày</th>
+                        <th>Giờ</th>
+                        <th>Giá (PT / TG)</th>
+                        <th></th>
+                    </tr>
+                    <tbody id="tf"></tbody>
+                </table>
+            </div>
+        </section>
+        <section id="pc" hidden><label>Tìm theo tên, SĐT, email hoặc nội dung<input id="qc"></label>
+            <div class="tbl" style="margin-top:12px">
+                <table>
+                    <tr>
+                        <th>Thời gian</th>
+                        <th>Khách hàng</th>
+                        <th>SĐT / Email</th>
+                        <th>Nội dung</th>
+                        <th>Trạng thái</th>
+                        <th></th>
+                    </tr>
+                    <tbody id="tc"></tbody>
+                </table>
+            </div>
+        </section>
+        <section id="pa" hidden>
+            <div class="row" style="align-items:end"><label style="flex:1">Tìm theo tên hoặc email<input
+                        id="qa"></label><button class="btn" id="uadd">+ Thêm tài khoản</button></div>
+            <div class="tbl" style="margin-top:12px">
+                <table>
+                    <tr>
+                        <th>Họ tên</th>
+                        <th>Email</th>
+                        <th>Vai trò</th>
+                        <th>Số đơn</th>
+                        <th>Trạng thái</th>
+                        <th></th>
+                    </tr>
+                    <tbody id="ta"></tbody>
+                </table>
+            </div>
+        </section>
+        <dialog id="udlg">
+            <h3 id="ut"></h3>
+            <form id="ufm" novalidate><input type="hidden" name="uid">
+                <div class="grid"><label>Họ và tên<input name="uname"></label><label>Email<input name="uemail"
+                            type="email"></label>
+                    <label>Mật khẩu<input name="upass" type="password" autocomplete="new-password"><small
+                            id="uhint"></small></label><label>Vai trò<select name="urole">
+                            <option value="user">Khách hàng</option>
+                            <option value="admin">Quản trị viên</option>
+                        </select></label>
+                </div>
+                <p><button class="btn">Lưu</button> <button type="button" class="btn ghost" id="ucx">Hủy</button></p>
+            </form>
+        </dialog>
+        <dialog id="vd">
+            <div id="dbody"></div><button class="btn ghost sm" onclick="this.closest('dialog').close()">Đóng</button>
+        </dialog>
+        <dialog id="dlg">
+            <h3 id="dt"></h3>
+            <form id="ffm" novalidate><input type="hidden" name="id">
+                <div class="grid"><label>Mã chuyến<input name="code"></label><label>Điểm đi<select
+                            name="from"></select></label><label>Điểm đến<select name="to"></select></label><label>Ngày
+                        bay<input type="date" name="date"></label><label>Giờ đi<input type="time"
+                            name="dep"></label><label>Thời gian bay (phút)<input type="number" name="dur"
+                            value="90"></label><label>Giá Phổ thông<input type="number" name="eco"></label><label>Giá
+                        Thương gia<input type="number" name="biz"></label></div>
+                <p><button class="btn">Lưu</button> <button type="button" class="btn ghost" id="cx">Hủy</button></p>
+            </form>
+        </dialog>
+    </main>
+    <footer id="ftr"></footer>
+    <script src="../js/utils.js"></script>
+    <script src="../js/api.js"></script>
+    <script src="../js/cart.js"></script>
+    <script src="../js/auth.js"></script>
+    <script src="../js/product.js"></script>
+    <script src="../js/booking.js"></script>
+    <script src="../js/admin.js"></script>
+    <script src="../js/contact.js"></script>
+    <script src="../js/main.js"></script>
+</body>
+
+</html>
