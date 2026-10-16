@@ -16,6 +16,6 @@ export default defineConfig({
         search: resolve(process.cwd(), 'pages/search.html'),
         ticket: resolve(process.cwd(), 'pages/ticket.html')
       }
-    }
+    } 
   }
 });

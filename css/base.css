@@ -1,4 +1,0 @@
-/* Biến màu, reset, kiểu chữ cơ bản */
-:root{--navy:#0a2d62;--blue:#13509c;--gold:#c9a24a;--bg:#f4f6fa;--tx:#1d2733;--mu:#6b7686;--bd:#dde3ec;--red:#c62828;--ok:#1b7f4b}
-*{box-sizing:border-box}body{margin:0;font-family:system-ui,-apple-system,"Segoe UI",Roboto,sans-serif;background:var(--bg);color:var(--tx);line-height:1.5}
-a{color:var(--blue);text-decoration:none}h1,h2,h3{margin:.3em 0}.wrap{max-width:1080px;margin:0 auto;padding:0 16px}main.wrap{padding:24px 16px;min-height:60vh}
