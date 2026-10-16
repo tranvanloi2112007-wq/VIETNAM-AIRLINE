@@ -1,0 +1,194 @@
+<!DOCTYPE html>
+<html lang="vi">
+<head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Thanh toán vé máy bay - Vietnam Airlines</title>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <link rel="stylesheet" href="../css/style.css">
+    <style>
+        .pay-grid {
+            display: grid;
+            grid-template-columns: 1.8fr 1.2fr;
+            gap: 24px;
+            margin-top: 24px;
+        }
+        @media (max-width: 768px) {
+            .pay-grid { grid-template-columns: 1fr; }
+        }
+        .pay-option {
+            border: 1px solid var(--bd, #e2e8f0);
+            border-radius: 10px;
+            padding: 16px;
+            margin-bottom: 12px;
+            cursor: pointer;
+            display: flex;
+            align-items: center;
+            gap: 12px;
+            transition: all 0.2s;
+        }
+        .pay-option:hover, .pay-option.active {
+            border-color: var(--blue, #13509c);
+            background-color: #f0f5ff;
+        }
+        .pay-option input[type="radio"] {
+            width: 18px;
+            height: 18px;
+        }
+        .qr-box {
+            text-align: center;
+            padding: 20px;
+            background: #fff;
+            border-radius: 12px;
+            border: 1px dashed var(--blue, #13509c);
+            margin-top: 16px;
+        }
+        .qr-box img {
+            max-width: 200px;
+            border-radius: 8px;
+        }
+        .summary-card {
+            background: #f8fafc;
+            border: 1px solid var(--bd, #e2e8f0);
+            border-radius: 12px;
+            padding: 20px;
+        }
+        .summary-row {
+            display: flex;
+            justify-content: space-between;
+            margin-bottom: 12px;
+            font-size: 14px;
+        }
+        .summary-total {
+            border-top: 2px dashed #cbd5e1;
+            padding-top: 12px;
+            margin-top: 12px;
+            font-weight: bold;
+            font-size: 18px;
+            color: var(--navy, #0b1c3f);
+        }
+    </style>
+</head>
+<body data-page="payment" data-root="../">
+    <header id="hdr"></header>
+
+    <main class="wrap" style="padding: 40px 16px;">
+        <h2>Thanh toán đơn hàng</h2>
+        <p style="color: var(--mu);">Vui lòng chọn phương thức thanh toán để hoàn tất đặt vé.</p>
+
+        <div class="pay-grid">
+            <!-- Cột trái: Chọn phương thức thanh toán -->
+            <div class="card">
+                <h3>Chọn phương thức thanh toán</h3>
+                <form id="payment-form" style="margin-top: 16px;">
+                    
+                    <label class="pay-option active">
+                        <input type="radio" name="pay_method" value="qr" checked>
+                        <i class="fa-solid fa-qrcode" style="font-size: 24px; color: var(--blue);"></i>
+                        <div>
+                            <b>Chuyển khoản QR Code (VietQR)</b>
+                            <br><small style="color: var(--mu);">Quét mã QR qua ứng dụng Ngân hàng / Momo / ZaloPay</small>
+                        </div>
+                    </label>
+
+                    <label class="pay-option">
+                        <input type="radio" name="pay_method" value="card">
+                        <i class="fa-solid fa-credit-card" style="font-size: 24px; color: var(--blue);"></i>
+                        <div>
+                            <b>Thẻ quốc tế (Visa, Mastercard, JCB)</b>
+                            <br><small style="color: var(--mu);">Thanh toán qua cổng thẻ quốc tế an toàn</small>
+                        </div>
+                    </label>
+
+                    <label class="pay-option">
+                        <input type="radio" name="pay_method" value="atm">
+                        <i class="fa-solid fa-building-columns" style="font-size: 24px; color: var(--blue);"></i>
+                        <div>
+                            <b>Thẻ ATM nội địa / Internet Banking</b>
+                            <br><small style="color: var(--mu);">Hỗ trợ hơn 40 ngân hàng tại Việt Nam</small>
+                        </div>
+                    </label>
+
+                    <!-- Khối hiển thị chi tiết theo lựa chọn -->
+                    <div id="pay-details">
+                        <div class="qr-box" id="qr-content">
+                            <h4>Quét mã QR để thanh toán</h4>
+                            <p style="font-size: 13px; color: var(--mu); margin-bottom: 10px;">Sử dụng App Ngân hàng bất kỳ để quét mã bên dưới</p>
+                            <img src="https://api.qrserver.com/v1/create-qr-code/?size=200x200&data=VIETNAM_AIRLINES_BOOKING" alt="Mã QR Thanh Toán">
+                            <p style="margin-top: 10px; font-weight: bold; color: var(--navy);">Nội dung chuyển khoản: <span id="pnr-code" style="color: var(--gold,#f8c258);">VNA12345</span></p>
+                        </div>
+                    </div>
+
+                    <button type="submit" class="btn" style="width: 100%; margin-top: 20px; padding: 14px; font-size: 16px;">
+                        Xác nhận & Hoàn tất thanh toán
+                    </button>
+                </form>
+            </div>
+
+            <!-- Cột phải: Tóm tắt đơn hàng -->
+            <div class="summary-card">
+                <h3 style="margin-bottom: 16px;">Tóm tắt chuyến bay</h3>
+                <div class="summary-row">
+                    <span>Mã đặt chỗ (PNR):</span>
+                    <b id="summary-pnr">---</b>
+                </div>
+                <div class="summary-row">
+                    <span>Chuyến bay:</span>
+                    <b id="summary-flight">---</b>
+                </div>
+                <div class="summary-row">
+                    <span>Hành trình:</span>
+                    <span id="summary-route">---</span>
+                </div>
+                <div class="summary-row">
+                    <span>Ngày đi:</span>
+                    <span id="summary-date">---</span>
+                </div>
+                <div class="summary-row">
+                    <span>Hành khách:</span>
+                    <span id="summary-pax">1 Người lớn</span>
+                </div>
+                <div class="summary-row summary-total">
+                    <span>Tổng tiền thanh toán:</span>
+                    <span id="summary-total-price" style="color: var(--blue);">0 VNĐ</span>
+                </div>
+            </div>
+        </div>
+    </main>
+
+    <!-- Footer -->
+    <footer class="site-footer">
+      <div class="footer-container">
+        <div class="footer-col brand-col">
+          <div class="footer-logo">
+            <i class="fa-solid fa-plane"></i>
+            <span>VIETNAM AIRLINES</span>
+          </div>
+          <p class="footer-slogan">Đồng hành cùng bạn trên mọi chuyến bay.</p>
+        </div>
+        <div class="footer-col">
+          <h3>Hỗ trợ</h3>
+          <ul>
+            <li><a href="#">Trung tâm trợ giúp</a></li>
+            <li><a href="#">Điều khoản sử dụng</a></li>
+          </ul>
+        </div>
+        <div class="footer-col">
+          <h3>Liên hệ</h3>
+          <p>Tổng đài: 1900 1100</p>
+          <p>Email: support@vietnamairlines.com</p>
+        </div>
+      </div>
+      <div class="footer-bottom">
+        <p>&copy; 2026 Vietnam Airlines (Demo). All rights reserved.</p>
+      </div>
+    </footer>
+
+    <script src="../js/utils.js"></script>
+    <script src="../js/api.js"></script>
+    <script src="../js/auth.js"></script>
+    <script src="../js/booking.js"></script>
+    <script src="../js/payment.js"></script>
+    <script src="../js/main.js"></script>
+</body>
+</html>

@@ -5,6 +5,8 @@
     <meta charset="utf-8">
     <meta name="viewport" content="width=device-width,initial-scale=1">
     <title>Vietnam Airlines - Đặt vé máy bay trực tuyến</title>
+    <!-- Thêm FontAwesome để hiển thị icon chân trang -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
     <link rel="stylesheet" href="css/style.css">
 </head>
 
@@ -106,7 +108,64 @@
             </div>
         </div>
     </section>
-    <footer id="ftr"></footer>
+
+    <!-- Chân trang hoàn chỉnh -->
+    <footer class="site-footer">
+      <div class="footer-container">
+        <!-- Cột 1: Thông tin thương hiệu -->
+        <div class="footer-col brand-col">
+          <div class="footer-logo">
+            <i class="fa-solid fa-plane"></i>
+            <span>VIETNAM AIRLINES</span>
+          </div>
+          <p class="footer-slogan">Đồng hành cùng bạn trên mọi chuyến bay, khám phá thế giới với trải nghiệm đẳng cấp.</p>
+          <div class="social-links">
+            <a href="#" aria-label="Facebook"><i class="fa-brands fa-facebook-f"></i></a>
+            <a href="#" aria-label="Youtube"><i class="fa-brands fa-youtube"></i></a>
+            <a href="#" aria-label="Tiktok"><i class="fa-brands fa-tiktok"></i></a>
+            <a href="#" aria-label="Instagram"><i class="fa-brands fa-instagram"></i></a>
+          </div>
+        </div>
+
+        <!-- Cột 2: Đặt vé & Khám phá -->
+        <div class="footer-col">
+          <h3>Đặt vé & Khám phá</h3>
+          <ul>
+            <li><a href="#search">Tìm chuyến bay</a></li>
+            <li><a href="#">Tra cứu vé</a></li>
+            <li><a href="#search">Ưu đãi đặc biệt</a></li>
+            <li><a href="#">Chính sách hành lý</a></li>
+          </ul>
+        </div>
+
+        <!-- Cột 3: Hỗ trợ khách hàng -->
+        <div class="footer-col">
+          <h3>Hỗ trợ</h3>
+          <ul>
+            <li><a href="#contact">Trung tâm trợ giúp</a></li>
+            <li><a href="#">Điều khoản sử dụng</a></li>
+            <li><a href="#">Chính sách bảo mật</a></li>
+            <li><a href="#contact">Liên hệ góp ý</a></li>
+          </ul>
+        </div>
+
+        <!-- Cột 4: Đăng ký nhận bản tin -->
+        <div class="footer-col newsletter-col">
+          <h3>Đăng ký nhận ưu đãi</h3>
+          <p>Nhận thông tin khuyến mại sớm nhất từ chúng tôi.</p>
+          <form class="newsletter-form" onsubmit="event.preventDefault();">
+            <input type="email" placeholder="Nhập email của bạn..." required>
+            <button type="submit">Đăng ký</button>
+          </form>
+        </div>
+      </div>
+
+      <!-- Dòng bản quyền phía dưới -->
+      <div class="footer-bottom">
+        <p>&copy; 2026 Vietnam Airlines (Demo). Tất cả các quyền được bảo lưu.</p>
+      </div>
+    </footer>
+
     <script src="js/utils.js"></script>
     <script src="js/api.js"></script>
     <script src="js/cart.js"></script>

@@ -171,22 +171,141 @@ h2.sec {
     letter-spacing: .15em
 }
 
-footer {
-    background: #111a2b;
-    color: #aab4c5;
-    padding: 28px 0;
-    margin-top: 40px;
-    font-size: 13px
+/* ==========================================
+   FOOTER STYLES (Chân trang mới)
+   ========================================== */
+.site-footer {
+  background-color: var(--navy, #0b1c3f);
+  color: #fff;
+  padding-top: 50px;
+  font-size: 14px;
+  margin-top: 40px;
 }
 
-footer .wrap {
-    display: flex;
-    flex-wrap: wrap;
-    gap: 24px;
-    justify-content: space-between
+.footer-container {
+  max-width: 1200px;
+  margin: 0 auto;
+  display: grid;
+  grid-template-columns: 1.5fr 1fr 1fr 1.5fr;
+  gap: 30px;
+  padding: 0 20px 40px 20px;
+  border-bottom: 1px solid rgba(255, 255, 255, 0.1);
 }
 
-footer a {
-    color: #aab4c5;
-    display: block
+.footer-col h3 {
+  font-size: 16px;
+  font-weight: 600;
+  margin-bottom: 20px;
+  color: var(--gold, #f8c258);
+  text-transform: uppercase;
+  letter-spacing: 0.5px;
+}
+
+.footer-col p {
+  color: var(--mu, #b0c4de);
+  line-height: 1.6;
+  margin-bottom: 15px;
+}
+
+.footer-col ul {
+  list-style: none;
+  padding: 0;
+  margin: 0;
+}
+
+.footer-col ul li {
+  margin-bottom: 10px;
+}
+
+.footer-col ul li a {
+  color: var(--mu, #b0c4de);
+  text-decoration: none;
+  transition: color 0.3s ease;
+}
+
+.footer-col ul li a:hover {
+  color: #fff;
+  padding-left: 5px;
+}
+
+.footer-logo {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  font-size: 16px;
+  font-weight: bold;
+  color: #fff;
+  margin-bottom: 15px;
+}
+
+.footer-logo i {
+  color: var(--gold, #f8c258);
+  font-size: 20px;
+}
+
+.social-links {
+  display: flex;
+  gap: 12px;
+  margin-top: 15px;
+}
+
+.social-links a {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  width: 36px;
+  height: 36px;
+  background-color: rgba(255, 255, 255, 0.1);
+  color: #fff;
+  border-radius: 50%;
+  text-decoration: none;
+  transition: background-color 0.3s;
+}
+
+.social-links a:hover {
+  background-color: var(--gold, #f8c258);
+  color: var(--navy, #0b1c3f);
+}
+
+.newsletter-form {
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+}
+
+.newsletter-form input {
+  padding: 10px 12px;
+  border-radius: 8px;
+  border: 1px solid rgba(255, 255, 255, 0.2);
+  background-color: rgba(255, 255, 255, 0.05);
+  color: #fff;
+  outline: none;
+  margin-top: 0;
+}
+
+.newsletter-form input::placeholder {
+  color: #8fa3bf;
+}
+
+.newsletter-form button {
+  padding: 10px;
+  border: none;
+  border-radius: 8px;
+  background-color: var(--gold, #f8c258);
+  color: var(--navy, #0b1c3f);
+  font-weight: bold;
+  cursor: pointer;
+  transition: opacity 0.3s;
+}
+
+.newsletter-form button:hover {
+  opacity: 0.9;
+}
+
+.footer-bottom {
+  text-align: center;
+  padding: 20px 0;
+  color: var(--mu, #8fa3bf);
+  font-size: 13px;
+  background-color: rgba(0, 0, 0, 0.15);
 }

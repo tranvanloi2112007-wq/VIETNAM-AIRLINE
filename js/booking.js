@@ -66,16 +66,55 @@ Pages.passenger = () => {
   }
 };
 Pages.confirm = () => {
-  const d = Booking.guard(); if (!d) return; if (!d.passengers || d.passengers.length !== d.pax) { location.href = 'passenger.html'; return }
-  $('#sum').innerHTML = Booking.summary(d) + `<table><tr><th>Họ tên</th><th>Giới tính</th><th>Ngày sinh</th><th>CCCD/HC</th></tr>${d.passengers.map(p => `<tr><td>${esc(p.name)}${p.type ? ` <small>(${Cart.TYPES[p.type]})</small>` : ''}</td><td>${p.gender}</td><td>${fmtDate(p.dob)}</td><td>${esc(p.idno)}</td></tr>`).join('')}</table><p>Liên hệ: ${esc(d.contact.phone)} · ${esc(d.contact.email)}</p><h3>Tổng tiền: ${money(Cart.total(d))}</h3>`;
-  $('#ok').onclick = async () => {
-    loading(true); await Api.wait(800); const db = Api.db(); let pnr;
-    for (const [i, l] of d.legs.entries()) { const f = db.flights.find(x => x.id === l.id); if (!f || l.seats.some(s => (f.taken || []).includes(s))) { loading(false); toast('Ghế vừa được người khác đặt, vui lòng chọn lại', 'error'); setTimeout(() => location.href = 'flight-detail.html?id=' + l.id + '&leg=' + (i + 1), 1200); return } }
-    const legs = d.legs.map(l => { const f = db.flights.find(x => x.id === l.id); f.taken = [...(f.taken || []), ...l.seats]; const { taken, ...fs } = f; return { flight: fs, cls: l.cls, kg: l.kg || 0, seats: l.seats } }); const ch = 'ABCDEFGHJKLMNPQRSTUVWXYZ23456789';
-    do { pnr = Array.from({ length: 6 }, () => ch[Math.floor(Math.random() * ch.length)]).join('') } while (db.bookings.some(b => b.pnr === pnr));
-    db.bookings.push({ pnr, userId: Auth.user().id, userEmail: Auth.user().email, legs, passengers: d.passengers, contact: d.contact, total: Cart.total(d), status: 'Đã đặt', createdAt: Date.now() });
-    Api.save(db); Cart.clear(); loading(false); toast('Đặt vé thành công!'); setTimeout(() => location.href = 'ticket.html?pnr=' + pnr, 600)
-  }
+    const d = Booking.guard(); if (!d) return; if (!d.passengers || d.passengers.length !== d.pax) { location.href = 'passenger.html'; return }
+    $('#sum').innerHTML = Booking.summary(d) + `<table><tr><th>Họ tên</th><th>Giới tính</th><th>Ngày sinh</th><th>CCCD/HC</th></tr>${d.passengers.map(p => `<tr><td>${esc(p.name)}${p.type ? ` <small>(${Cart.TYPES[p.type]})</small>` : ''}</td><td>${p.gender}</td><td>${fmtDate(p.dob)}</td><td>${esc(p.idno)}</td></tr>`).join('')}</table><p>Liên hệ: ${esc(d.contact.phone)} · ${esc(d.contact.email)}</p><h3>Tổng tiền: ${money(Cart.total(d))}</h3>`;
+    
+    // Xử lý khi bấm nút Xác nhận đặt vé trên trang confirm.html
+    $('#ok').onclick = async () => {
+        loading(true); await Api.wait(500); const db = Api.db(); let pnr;
+        
+        // Kiểm tra xem ghế đã bị người khác đặt chưa
+        for (const [i, l] of d.legs.entries()) { 
+            const f = db.flights.find(x => x.id === l.id); 
+            if (!f || l.seats.some(s => (f.taken || []).includes(s))) { 
+                loading(false); 
+                toast('Ghế vừa được người khác đặt, vui lòng chọn lại', 'error'); 
+                setTimeout(() => location.href = 'flight-detail.html?id=' + l.id + '&leg=' + (i + 1), 1200); 
+                return; 
+            } 
+        }
+
+        // Tạo mã PNR ngẫu nhiên gồm 6 ký tự
+        const ch = 'ABCDEFGHJKLMNPQRSTUVWXYZ23456789';
+        do { 
+            pnr = Array.from({ length: 6 }, () => ch[Math.floor(Math.random() * ch.length)]).join(''); 
+        } while (db.bookings.some(b => b.pnr === pnr));
+
+        // Đóng gói thông tin đơn hàng dưới dạng trạng thái 'Pending' (Chờ thanh toán)
+        const bookingData = {
+            pnr: pnr,
+            userId: Auth.user().id,
+            userEmail: Auth.user().email,
+            legs: d.legs.map(l => { 
+                const f = db.flights.find(x => x.id === l.id); 
+                const { taken, ...fs } = f; 
+                return { flight: fs, cls: l.cls, kg: l.kg || 0, seats: l.seats }; 
+            }),
+            passengers: d.passengers,
+            contact: d.contact,
+            total: Cart.total(d),
+            status: 'Pending',
+            createdAt: Date.now()
+        };
+
+        // Lưu tạm thông tin đơn hàng vào localStorage để trang thanh toán đọc
+        localStorage.setItem('vna_current_booking', JSON.stringify(bookingData));
+        
+        loading(false);
+        
+        // Chuyển hướng sang trang thanh toán
+        location.href = 'payment.html';
+    }
 };
 Pages.ticket = () => {
   const show = (b, own) => $('#res').innerHTML = b ? Booking.html(b, own) : '<div class="msg">Không tìm thấy mã đặt chỗ. Vui lòng kiểm tra lại.</div>';
