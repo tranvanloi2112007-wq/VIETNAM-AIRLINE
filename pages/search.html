@@ -1,0 +1,40 @@
+<!DOCTYPE html>
+<html lang="vi">
+
+<head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width,initial-scale=1">
+    <title>Tìm chuyến bay - Vietnam Airlines</title>
+    <link rel="stylesheet" href="../css/style.css">
+</head>
+
+<body data-page="search" data-root="../">
+    <header id="hdr"></header>
+    <main class="wrap">
+        <h2 id="stitle">Tìm chuyến bay</h2>
+        <form id="ff" class="card filter" onsubmit="return false"><label>Điểm đi<select
+                    name="from"></select></label><label>Điểm đến<select name="to"></select></label><label>Ngày khởi
+                hành<input type="date" name="date"></label>
+            <label>Giá tối đa: <span id="maxv"></span><input type="range" name="max" min="500000" max="5000000"
+                    step="100000" value="5000000"></label>
+            <label>Sắp xếp<select name="sort">
+                    <option value="">Giờ bay</option>
+                    <option value="asc">Giá tăng dần</option>
+                    <option value="desc">Giá giảm dần</option>
+                </select></label>
+        </form>
+        <div id="res"></div>
+    </main>
+    <footer id="ftr"></footer>
+    <script src="../js/utils.js"></script>
+    <script src="../js/api.js"></script>
+    <script src="../js/cart.js"></script>
+    <script src="../js/auth.js"></script>
+    <script src="../js/product.js"></script>
+    <script src="../js/booking.js"></script>
+    <script src="../js/admin.js"></script>
+    <script src="../js/contact.js"></script>
+    <script src="../js/main.js"></script>
+</body>
+
+</html>

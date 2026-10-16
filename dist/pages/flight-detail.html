@@ -1,0 +1,43 @@
+<!DOCTYPE html>
+<html lang="vi">
+
+<head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width,initial-scale=1">
+    <title>Chi tiết chuyến bay - Vietnam Airlines</title>
+  <link rel="stylesheet" crossorigin href="/assets/style-B4ZR7oau.css">
+</head>
+
+<body data-page="detail" data-root="../">
+    <header id="hdr"></header>
+    <main class="wrap">
+        <div class="card" id="info"></div>
+        <h3 style="margin-top:20px">Chọn hạng vé</h3>
+        <div class="cls" id="cls"></div>
+        <div class="card" style="margin-top:16px">
+            <h3>Chọn chỗ ngồi <small id="need"></small></h3><small>Ghế đã chọn: <b id="sel"></b></small>
+            <div class="legend"><span class="seat"></span> Trống <span class="seat on"></span> Đang chọn <span
+                    class="seat x"></span> Đã có người</div>
+            <div class="seatmap" id="seats"></div>
+        </div>
+        <div class="card" style="margin-top:16px">
+            <h3>Mua thêm cân gửi hàng hóa</h3><label>Số kg mua thêm (<span id="rate"></span>/kg)<select
+                    id="kg"></select></label>
+        </div>
+        <div class="card row" style="margin-top:16px;align-items:center">
+            <h3>Tổng tiền: <span id="total"></span></h3><button class="btn" id="next">Tiếp tục</button>
+        </div>
+    </main>
+    <footer id="ftr"></footer>
+    <script src="../js/utils.js"></script>
+    <script src="../js/api.js"></script>
+    <script src="../js/cart.js"></script>
+    <script src="../js/auth.js"></script>
+    <script src="../js/product.js"></script>
+    <script src="../js/booking.js"></script>
+    <script src="../js/admin.js"></script>
+    <script src="../js/contact.js"></script>
+    <script src="../js/main.js"></script>
+</body>
+
+</html>

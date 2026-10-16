@@ -1,0 +1,11 @@
+# Hệ thống đặt vé máy bay Vietnam Airlines (demo)
+Web tĩnh (HTML/CSS/JS thuần), dữ liệu lưu bằng LocalStorage. Mở `index.html` trực tiếp, hoặc chạy `python3 -m http.server` rồi vào http://localhost:8000.
+
+**Tài khoản demo:** khách hàng `user@vna.vn` / `123456` · quản trị `admin@vna.vn` / `admin123` (tab "Quản trị viên" ở trang đăng nhập).
+
+## Chức năng
+- **Khách:** tìm chuyến (lọc điểm đi/đến, ngày, giá; sắp xếp giá) · chọn 1 ô hành khách (người lớn/trẻ em/em bé) · đăng ký/đăng nhập · chọn hạng Phổ thông/Thương gia · xem số ghế còn · chọn chỗ ngồi · mua thêm cân gửi hàng hóa · nhập thông tin có kiểm tra · xác nhận, tạo PNR · vé điện tử, tra cứu PNR, hủy vé · form liên hệ ở trang chủ.
+- **Admin:** thống kê (doanh thu theo ngày, vé Thương gia/Phổ thông) · quản lý đơn đặt vé (tìm, xem, đổi trạng thái) · quản lý chuyến bay (thêm/sửa/xóa) · xem liên hệ khách hàng · quản lý tài khoản (thêm/sửa/khóa/xóa).
+
+Giá: trẻ em 75%, em bé 10% (không chiếm ghế), hành lý thêm 60.000đ/kg — chỉnh trong `js/cart.js`.
+Lưu ý: mật khẩu lưu dạng thô chỉ phục vụ demo front-end. Nếu dữ liệu cũ bị lỗi, vào Admin → "Khôi phục dữ liệu mẫu".
