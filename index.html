@@ -12,23 +12,56 @@
 
 <body data-page="home" data-root="">
     <header id="hdr"></header>
-    <section class="hero">
-        <div class="wrap"><small>WELCOME TO VIETNAM AIRLINES</small>
-            <h1>Khám phá Việt Nam<br>theo cách của bạn</h1>
-            <p>Bay cùng Vietnam Airlines – an tâm trong từng hành trình.</p><a href="#search" class="btn gold">Đặt vé
-                ngay</a>
+    <section class="hero" style="
+            background: linear-gradient(rgba(0,0,0,0.4), rgba(0,0,0,0.6)), url('img/banner.png');
+            background-size: cover;
+            background-position: center;
+            background-repeat: no-repeat;
+            color: #fff;
+            padding: 80px 20px;
+            text-align: center;">
+        <div class="wrap">
+            <small style="letter-spacing: 2px; text-transform: uppercase; opacity: 0.9;">WELCOME TO VIETNAM
+                AIRLINES</small>
+            <h1 style="font-size: 2.5rem; margin: 15px 0;">Khám phá Việt Nam<br>theo cách của bạn</h1>
+            <p style="font-size: 1.1rem; margin-bottom: 25px; opacity: 0.9;">Bay cùng Vietnam Airlines – an tâm trong
+                từng hành trình.</p>
+            <a href="#search" class="btn gold"
+                style="display: inline-block; padding: 12px 25px; background-color: #d4af37; color: #fff; text-decoration: none; border-radius: 4px; font-weight: bold;">
+                Đặtvé ngay
+            </a>
         </div>
     </section>
     <div class="wrap" id="search">
         <form id="sf" class="card sform" novalidate>
-            <div class="trip"><label><input type="radio" name="type" value="round" checked>Khứ hồi</label><label><input
-                        type="radio" name="type" value="one">Một chiều</label></div>
-            <div class="grid"><label>Điểm đi<select name="from"></select></label><label>Điểm đến<select
-                        name="to"></select></label><label>Ngày đi<input type="date" name="date"></label><label
-                    id="retw">Ngày về<input type="date" name="ret"></label>
-                <div class="paxw"><label>Hành khách<input id="paxsum" readonly autocomplete="off"></label><input
-                        type="hidden" name="adults" value="1"><input type="hidden" name="children" value="0"><input
-                        type="hidden" name="infants" value="0">
+            <div class="trip">
+                <label>
+                    <input type="radio" name="type" value="round" checked>Khứ hồi
+                </label>
+                <label>
+                    <input type="radio" name="type" value="one">Một chiều
+                </label>
+            </div>
+            <div class="grid">
+                <label>
+                    Điểm đi<select name="from"></select>
+                </label>
+                <label>
+                    Điểm đến<select name="to"></select>
+                </label>
+                <label>
+                    Ngày đi<input type="date" name="date">
+                </label>
+                <label id="retw">
+                    Ngày về<input type="date" name="ret">
+                </label>
+                <div class="paxw">
+                    <label>
+                        Hành khách<input id="paxsum" readonly autocomplete="off">
+                    </label>
+                    <input type="hidden" name="adults" value="1">
+                    <input type="hidden" name="children" value="0">
+                    <input type="hidden" name="infants" value="0">
                     <div class="paxpop" id="paxpop" hidden>
                         <div class="prow">
                             <div><b>Người lớn</b><br><small>Từ 12 tuổi</small></div>
@@ -77,17 +110,23 @@
         </div>
         <h2 class="sec">Điểm đến phổ biến</h2>
         <div class="dest">
-            <div style="background:linear-gradient(#0003,#000a),linear-gradient(#e07a5f,#3d405b)"><small
-                    style="color:#fff">HAN</small>
-                <h3>Hà Nội</h3>Thủ đô ngàn năm văn hiến
+            <div
+                style="background: linear-gradient(#0003, #000a), url('img/hn.jpg'); background-size: cover; background-position: center; padding: 20px; border-radius: 8px; color: #fff;">
+                <small style="color:#fff; display: block;">HAN</small>
+                <h3 style="margin: 5px 0;">Hà Nội</h3>
+                <span>Thủ đô ngàn năm văn hiến</span>
             </div>
-            <div style="background:linear-gradient(#0003,#000a),linear-gradient(#f2cc8f,#3d5a80)"><small
-                    style="color:#fff">SGN</small>
-                <h3>TP. Hồ Chí Minh</h3>Thành phố năng động
+            <div
+                style="background: linear-gradient(#0003, #000a), url('img/hcm.jpg'); background-size: cover; background-position: center; padding: 20px; border-radius: 8px; color: #fff;">
+                <small style="color:#fff; display: block;">SGN</small>
+                <h3 style="margin: 5px 0;">TP. Hồ Chí Minh</h3>
+                <span>Thành phố năng động</span>
             </div>
-            <div style="background:linear-gradient(#0003,#000a),linear-gradient(#81b29a,#264653)"><small
-                    style="color:#fff">DAD</small>
-                <h3>Đà Nẵng</h3>Thành phố đáng sống
+            <div
+                style="background: linear-gradient(#0003, #000a), url('img/dn.jpg'); background-size: cover; background-position: center; padding: 20px; border-radius: 8px; color: #fff;">
+                <small style="color:#fff; display: block;">DAD</small>
+                <h3 style="margin: 5px 0;">Đà Nẵng</h3>
+                <span>Thành phố đáng sống</span>
             </div>
         </div>
     </div>
@@ -111,59 +150,60 @@
 
     <!-- Chân trang hoàn chỉnh -->
     <footer class="site-footer">
-      <div class="footer-container">
-        <!-- Cột 1: Thông tin thương hiệu -->
-        <div class="footer-col brand-col">
-          <div class="footer-logo">
-            <i class="fa-solid fa-plane"></i>
-            <span>VIETNAM AIRLINES</span>
-          </div>
-          <p class="footer-slogan">Đồng hành cùng bạn trên mọi chuyến bay, khám phá thế giới với trải nghiệm đẳng cấp.</p>
-          <div class="social-links">
-            <a href="#" aria-label="Facebook"><i class="fa-brands fa-facebook-f"></i></a>
-            <a href="#" aria-label="Youtube"><i class="fa-brands fa-youtube"></i></a>
-            <a href="#" aria-label="Tiktok"><i class="fa-brands fa-tiktok"></i></a>
-            <a href="#" aria-label="Instagram"><i class="fa-brands fa-instagram"></i></a>
-          </div>
+        <div class="footer-container">
+            <!-- Cột 1: Thông tin thương hiệu -->
+            <div class="footer-col brand-col">
+                <div class="footer-logo">
+                    <i class="fa-solid fa-plane"></i>
+                    <span>VIETNAM AIRLINES</span>
+                </div>
+                <p class="footer-slogan">Đồng hành cùng bạn trên mọi chuyến bay, khám phá thế giới với trải nghiệm đẳng
+                    cấp.</p>
+                <div class="social-links">
+                    <a href="#" aria-label="Facebook"><i class="fa-brands fa-facebook-f"></i></a>
+                    <a href="#" aria-label="Youtube"><i class="fa-brands fa-youtube"></i></a>
+                    <a href="#" aria-label="Tiktok"><i class="fa-brands fa-tiktok"></i></a>
+                    <a href="#" aria-label="Instagram"><i class="fa-brands fa-instagram"></i></a>
+                </div>
+            </div>
+
+            <!-- Cột 2: Đặt vé & Khám phá -->
+            <div class="footer-col">
+                <h3>Đặt vé & Khám phá</h3>
+                <ul>
+                    <li><a href="#search">Tìm chuyến bay</a></li>
+                    <li><a href="#">Tra cứu vé</a></li>
+                    <li><a href="#search">Ưu đãi đặc biệt</a></li>
+                    <li><a href="#">Chính sách hành lý</a></li>
+                </ul>
+            </div>
+
+            <!-- Cột 3: Hỗ trợ khách hàng -->
+            <div class="footer-col">
+                <h3>Hỗ trợ</h3>
+                <ul>
+                    <li><a href="#contact">Trung tâm trợ giúp</a></li>
+                    <li><a href="#">Điều khoản sử dụng</a></li>
+                    <li><a href="#">Chính sách bảo mật</a></li>
+                    <li><a href="#contact">Liên hệ góp ý</a></li>
+                </ul>
+            </div>
+
+            <!-- Cột 4: Đăng ký nhận bản tin -->
+            <div class="footer-col newsletter-col">
+                <h3>Đăng ký nhận ưu đãi</h3>
+                <p>Nhận thông tin khuyến mại sớm nhất từ chúng tôi.</p>
+                <form class="newsletter-form" onsubmit="event.preventDefault();">
+                    <input type="email" placeholder="Nhập email của bạn..." required>
+                    <button type="submit">Đăng ký</button>
+                </form>
+            </div>
         </div>
 
-        <!-- Cột 2: Đặt vé & Khám phá -->
-        <div class="footer-col">
-          <h3>Đặt vé & Khám phá</h3>
-          <ul>
-            <li><a href="#search">Tìm chuyến bay</a></li>
-            <li><a href="#">Tra cứu vé</a></li>
-            <li><a href="#search">Ưu đãi đặc biệt</a></li>
-            <li><a href="#">Chính sách hành lý</a></li>
-          </ul>
+        <!-- Dòng bản quyền phía dưới -->
+        <div class="footer-bottom">
+            <p>&copy; 2026 Vietnam Airlines (Demo). Tất cả các quyền được bảo lưu.</p>
         </div>
-
-        <!-- Cột 3: Hỗ trợ khách hàng -->
-        <div class="footer-col">
-          <h3>Hỗ trợ</h3>
-          <ul>
-            <li><a href="#contact">Trung tâm trợ giúp</a></li>
-            <li><a href="#">Điều khoản sử dụng</a></li>
-            <li><a href="#">Chính sách bảo mật</a></li>
-            <li><a href="#contact">Liên hệ góp ý</a></li>
-          </ul>
-        </div>
-
-        <!-- Cột 4: Đăng ký nhận bản tin -->
-        <div class="footer-col newsletter-col">
-          <h3>Đăng ký nhận ưu đãi</h3>
-          <p>Nhận thông tin khuyến mại sớm nhất từ chúng tôi.</p>
-          <form class="newsletter-form" onsubmit="event.preventDefault();">
-            <input type="email" placeholder="Nhập email của bạn..." required>
-            <button type="submit">Đăng ký</button>
-          </form>
-        </div>
-      </div>
-
-      <!-- Dòng bản quyền phía dưới -->
-      <div class="footer-bottom">
-        <p>&copy; 2026 Vietnam Airlines (Demo). Tất cả các quyền được bảo lưu.</p>
-      </div>
     </footer>
 
     <script src="js/utils.js"></script>
