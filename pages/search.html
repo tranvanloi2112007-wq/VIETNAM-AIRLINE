@@ -12,11 +12,20 @@
     <header id="hdr"></header>
     <main class="wrap">
         <h2 id="stitle">Tìm chuyến bay</h2>
-        <form id="ff" class="card filter" onsubmit="return false"><label>Điểm đi<select
-                    name="from"></select></label><label>Điểm đến<select name="to"></select></label><label>Ngày khởi
-                hành<input type="date" name="date"></label>
-            <label>Giá tối đa: <span id="maxv"></span><input type="range" name="max" min="500000" max="5000000"
-                    step="100000" value="5000000"></label>
+        <form id="ff" class="card filter" onsubmit="return false">
+            <label>
+                Điểm đi<select name="from"></select>
+            </label>
+            <label>
+                Điểm đến<select name="to"></select>
+            </label>
+            <label>
+                Ngày khởi hành<input type="date" name="date">
+            </label>
+            <label>
+                Giá tối đa: <span id="maxv"></span>
+                <input type="range" name="max" min="500000" max="5000000" step="100000" value="5000000">
+            </label>
             <label>Sắp xếp<select name="sort">
                     <option value="">Giờ bay</option>
                     <option value="asc">Giá tăng dần</option>

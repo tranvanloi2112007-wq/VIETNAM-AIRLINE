@@ -12,18 +12,25 @@
     <header id="hdr"></header>
     <main class="wrap">
         <div class="row">
-            <h2>Trang quản trị</h2><button class="btn ghost sm" id="rs">Khôi phục dữ liệu mẫu</button>
+            <h2>Trang quản trị</h2>
+            <button class="btn ghost sm" id="rs">Khôi phục dữ liệu mẫu</button>
         </div>
-        <div class="tabs"><button class="on" data-t="s">Thống kê</button><button data-t="b">Đơn đặt vé</button><button
-                data-t="f">Chuyến bay</button><button data-t="c">Liên hệ khách hàng <span
-                    id="nc"></span></button><button data-t="a">Tài khoản</button></div>
+        <div class="tabs">
+            <button class="on" data-t="s">Thống kê</button>
+            <button data-t="b">Đơn đặt vé</button>
+            <button data-t="f">Chuyến bay</button>
+            <button data-t="c">Liên hệ khách hàng <span id="nc"></span></button>
+            <button data-t="a">Tài khoản</button>
+        </div>
         <section id="ps">
-            <div class="kpis" id="kp"></div><label style="max-width:220px;margin-top:16px">Khoảng thời gian<select
-                    id="rg">
+            <div class="kpis" id="kp"></div>
+            <label style="max-width:220px;margin-top:16px">Khoảng thời gian
+                <select id="rg">
                     <option value="7">7 ngày gần nhất</option>
                     <option value="14" selected>14 ngày gần nhất</option>
                     <option value="30">30 ngày gần nhất</option>
-                </select></label>
+                </select>
+            </label>
             <div class="charts">
                 <div class="card">
                     <h3>Doanh thu theo ngày</h3>
@@ -35,8 +42,10 @@
                 </div>
             </div>
         </section>
-        <section id="pb" hidden><label>Tìm theo mã đặt chỗ hoặc tên hành khách<input id="qb"
-                    placeholder="Nhập từ khóa..."></label>
+        <section id="pb" hidden>
+            <label>
+                Tìm theo mã đặt chỗ hoặc tên hành khách<input id="qb" placeholder="Nhập từ khóa...">
+            </label>
             <div class="tbl" style="margin-top:12px">
                 <table>
                     <tr>
@@ -53,9 +62,13 @@
             </div>
         </section>
         <section id="pf" hidden>
-            <div class="row" style="align-items:end"><label style="flex:1">Tìm chuyến bay (mã, sân bay, ngày)<input
-                        id="qf"></label><button class="btn" id="addf">+ Thêm chuyến bay</button></div><small
-                id="ct"></small>
+            <div class="row" style="align-items:end">
+                <label style="flex:1">
+                    Tìm chuyến bay (mã, sân bay, ngày) <input id="qf">
+                </label>
+                <button class="btn" id="addf">+ Thêm chuyến bay</button>
+            </div>
+            <small id="ct"></small>
             <div class="tbl">
                 <table>
                     <tr>
@@ -70,7 +83,10 @@
                 </table>
             </div>
         </section>
-        <section id="pc" hidden><label>Tìm theo tên, SĐT, email hoặc nội dung<input id="qc"></label>
+        <section id="pc" hidden>
+            <label>
+                Tìm theo tên, SĐT, email hoặc nội dung<input id="qc">
+            </label>
             <div class="tbl" style="margin-top:12px">
                 <table>
                     <tr>
@@ -86,8 +102,12 @@
             </div>
         </section>
         <section id="pa" hidden>
-            <div class="row" style="align-items:end"><label style="flex:1">Tìm theo tên hoặc email<input
-                        id="qa"></label><button class="btn" id="uadd">+ Thêm tài khoản</button></div>
+            <div class="row" style="align-items:end">
+                <label style="flex:1">
+                    Tìm theo tên hoặc email<input id="qa">
+                </label>
+                <button class="btn" id="uadd">+ Thêm tài khoản</button>
+            </div>
             <div class="tbl" style="margin-top:12px">
                 <table>
                     <tr>
@@ -104,31 +124,70 @@
         </section>
         <dialog id="udlg">
             <h3 id="ut"></h3>
-            <form id="ufm" novalidate><input type="hidden" name="uid">
-                <div class="grid"><label>Họ và tên<input name="uname"></label><label>Email<input name="uemail"
-                            type="email"></label>
-                    <label>Mật khẩu<input name="upass" type="password" autocomplete="new-password"><small
-                            id="uhint"></small></label><label>Vai trò<select name="urole">
+            <form id="ufm" novalidate>
+                <input type="hidden" name="uid">
+                <div class="grid">
+                    <label>
+                        Họ và tên<input name="uname">
+                    </label>
+                    <label>
+                        Email<input name="uemail" type="email">
+                    </label>
+                    <label>
+                        Mật khẩu<input name="upass" type="password" autocomplete="new-password">
+                        <small id="uhint"></small>
+                    </label>
+                    <label>
+                        Vai trò<select name="urole">
                             <option value="user">Khách hàng</option>
                             <option value="admin">Quản trị viên</option>
-                        </select></label>
+                        </select>
+                    </label>
                 </div>
-                <p><button class="btn">Lưu</button> <button type="button" class="btn ghost" id="ucx">Hủy</button></p>
+                <p>
+                    <button class="btn">Lưu</button> 
+                    <button type="button" class="btn ghost" id="ucx">Hủy</button>
+                </p>
             </form>
         </dialog>
         <dialog id="vd">
-            <div id="dbody"></div><button class="btn ghost sm" onclick="this.closest('dialog').close()">Đóng</button>
+            <div id="dbody"></div>
+            <button class="btn ghost sm" onclick="this.closest('dialog').close()">Đóng</button>
         </dialog>
         <dialog id="dlg">
             <h3 id="dt"></h3>
-            <form id="ffm" novalidate><input type="hidden" name="id">
-                <div class="grid"><label>Mã chuyến<input name="code"></label><label>Điểm đi<select
-                            name="from"></select></label><label>Điểm đến<select name="to"></select></label><label>Ngày
-                        bay<input type="date" name="date"></label><label>Giờ đi<input type="time"
-                            name="dep"></label><label>Thời gian bay (phút)<input type="number" name="dur"
-                            value="90"></label><label>Giá Phổ thông<input type="number" name="eco"></label><label>Giá
-                        Thương gia<input type="number" name="biz"></label></div>
-                <p><button class="btn">Lưu</button> <button type="button" class="btn ghost" id="cx">Hủy</button></p>
+            <form id="ffm" novalidate>
+                <input type="hidden" name="id">
+                <div class="grid">
+                    <label>
+                        Mã chuyến<input name="code">
+                    </label>
+                    <label>
+                        Điểm đi <select name="from"></select>
+                    </label>
+                    <label>
+                        Điểm đến<select name="to"></select>
+                    </label>
+                    <label>
+                        Ngày bay<input type="date" name="date">
+                    </label>
+                    <label>
+                        Giờ đi<input type="time" name="dep">
+                    </label>
+                    <label>
+                        Thời gian bay (phút)<input type="number" name="dur" value="90">
+                    </label>
+                    <label>
+                        Giá Phổ thông<input type="number" name="eco">
+                    </label>
+                    <label>
+                        Giá Thương gia<input type="number" name="biz">
+                    </label>
+                </div>
+                <p>
+                    <button class="btn">Lưu</button>
+                    <button type="button" class="btn ghost" id="cx">Hủy</button>
+                </p>
             </form>
         </dialog>
     </main>
