@@ -37,9 +37,5 @@
         grid-template-columns: 1fr
     }
 
-    /* Bổ sung phần chân trang (Footer) cho thiết bị di động */
-    .footer-container {
-        grid-template-columns: 1fr;
-        gap: 25px;
-    }
+    
 }

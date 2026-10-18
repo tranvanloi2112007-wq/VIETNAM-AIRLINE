@@ -21,26 +21,33 @@ function renderChrome() {
         if (lo) lo.onclick = e => { e.preventDefault(); Auth.logout() };
     }
     
-    // Render Footer cũ (chỉ chạy nếu trang có tồn tại #ftr, tránh lỗi null)
-    const ftr = $('#ftr');
-    if (ftr) {
-        ftr.innerHTML = `<div class="wrap">
-        <div>
-            <b style="color:#fff">✈ VIETNAM AIRLINES</b>
-            <br> Đồng hành cùng bạn trên mọi chuyến bay.
-        </div>
-        <div>
-            <b style="color:#fff">Đặt vé</b>
-            <a href="${p}search.html">Tìm chuyến bay</a>
-            <a href="${p}ticket.html">Tra cứu vé</a>
-        </div>
-        <div>
-            <b style="color:#fff">Tài khoản</b>
-            <a href="${p}login.html">Đăng nhập</a>
-            <a href="${p}register.html">Đăng ký</a>
-        </div>
+    // Footer: chỉ hiển thị ở trang chủ
+const ftr = $('#ftr');
+if (ftr) {
+    // Trang chủ nằm ngoài thư mục /pages/, các trang con đều nằm trong /pages/
+    const isHome = !location.pathname.includes('/pages/');
+
+    if (!isHome) {
+        ftr.remove(); // trang khác: xóa luôn thẻ footer
+        } else {
+            ftr.innerHTML = `<div class="wrap">
+            <div>
+                <b style="color:#fff">✈ VIETNAM AIRLINES</b>
+                <br> Đồng hành cùng bạn trên mọi chuyến bay.
+            </div>
+            <div>
+                <b style="color:#fff">Đặt vé</b>
+                <a href="${p}search.html">Tìm chuyến bay</a>
+                <a href="${p}ticket.html">Tra cứu vé</a>
+            </div>
+            <div>
+                <b style="color:#fff">Tài khoản</b>
+                <a href="${p}login.html">Đăng nhập</a>
+                <a href="${p}register.html">Đăng ký</a>
+            </div>
             <div>© 2026 Vietnam Airlines (demo)</div>
-        </div>`;
+            </div>`;
+        }
     }
 }
 
