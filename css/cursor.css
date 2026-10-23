@@ -1,0 +1,11 @@
+/* Con trỏ chuột dùng ảnh riêng. Hai số "0 0" là điểm bấm thực tế (x y) tính từ góc trên trái của ảnh */
+html,body{cursor:url("../img/c.png") 0 0,auto}
+
+/* Khi rê chuột vào phần bấm được */
+a,button,select,summary,label[for],.chip,.cls label,.seat,#paxsum,input[type=radio],input[type=checkbox],input[type=range]{cursor:url("../img/cursor-hover.png") 0 0,pointer}
+
+/* Ô nhập chữ giữ con trỏ I-beam để dễ gõ */
+input:not([type=radio]):not([type=checkbox]):not([type=range]):not([readonly]),textarea{cursor:text}
+
+/* Nút, ghế, ô bị khóa */
+button:disabled,.seat.x,input:disabled,select:disabled{cursor:not-allowed}

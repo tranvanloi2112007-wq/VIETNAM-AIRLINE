@@ -91,13 +91,18 @@ Pages.detail = () => {
   };
 
   // --- Thông tin chuyến bay ---
-  $('#info').innerHTML = `<h2>${esc(f.code)}: ${esc(city(f.from))} → ${esc(city(f.to))}</h2><p>${fmtDate(f.date)} · ${f.dep} – ${f.arr} (${Math.floor(f.dur / 60)}h ${f.dur % 60}m) · ${Cart.paxText(d)}</p><small>Trẻ em tính 75% giá vé, em bé tính 10% giá vé và không chiếm ghế.</small>`;
+  $('#info').innerHTML = `<h2>${esc(f.code)}: ${esc(city(f.from))} → ${esc(city(f.to))}</h2>
+  <p>${fmtDate(f.date)} · ${f.dep} – ${f.arr} (${Math.floor(f.dur / 60)}h ${f.dur % 60}m) · ${Cart.paxText(d)}</p>
+  <small>Trẻ em tính 75% giá vé, em bé tính 10% giá vé và không chiếm ghế.</small>`;
 
   // --- Danh sách hạng vé ---
   $('#cls').innerHTML = Object.entries(C).map(([k, [n, ...b]]) => {
     const left = Api.left(f, k);
 
-    return `<label class="${k === cls ? 'sel' : ''}"><input type="radio" name="cls" value="${k}" ${k === cls ? 'checked' : ''} ${left < n ? 'disabled' : ''}><b>${n}</b><b class="p">${money(f.prices[k])}</b><small>/ người lớn · ${left >= n ? `Còn <b>${left}</b> ghế` : 'Không đủ chỗ'}</small><ul>${b.map(x => `<li>${x}</li>`).join('')}</ul></label>`;
+    return `<label class="${k === cls ? 'sel' : ''}">
+    <input type="radio" name="cls" value="${k}" ${k === cls ? 'checked' : ''} ${left < n ? 'disabled' : ''}>
+    <b>${n}</b><b class="p">${money(f.prices[k])}</b>
+    <small>/ người lớn · ${left >= n ? `Còn <b>${left}</b> ghế` : 'Không đủ chỗ'}</small><ul>${b.map(x => `<li>${x}</li>`).join('')}</ul></label>`;
   }).join('');
 
   // --- Chọn cân hành lý mua thêm ---
